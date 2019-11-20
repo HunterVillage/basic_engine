@@ -1,7 +1,7 @@
+import 'package:basic_engine/widgets/bundle_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../components/bundle_button.dart';
 import 'bundle.dart';
 
 class BundleBoss {
@@ -9,7 +9,7 @@ class BundleBoss {
 
   static Bundle register(Bundle bundle) {
     Bundle registeredModel = _pool.putIfAbsent(bundle.getId(), () => bundle);
-    print('id of the registered model is $registeredModel');
+    print('Id of the registered bundle is $registeredModel');
     return registeredModel;
   }
 
