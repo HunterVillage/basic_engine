@@ -7,8 +7,8 @@ import 'bundle.dart';
 class BundleBoss {
   static Map<String, Bundle> _pool = {};
 
-  static Bundle register(Bundle model) {
-    Bundle registeredModel = _pool.putIfAbsent(model.getId(), () => model);
+  static Bundle register(Bundle bundle) {
+    Bundle registeredModel = _pool.putIfAbsent(bundle.getId(), () => bundle);
     print('id of the registered model is $registeredModel');
     return registeredModel;
   }
