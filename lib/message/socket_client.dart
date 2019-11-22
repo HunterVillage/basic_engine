@@ -51,7 +51,7 @@ class SocketClient {
   }
 
   void sendMessage(String message) {
-    if (_isOpen) {
+    if (!_isOpen) {
       connect();
     }
     _webSocket.add(message);
