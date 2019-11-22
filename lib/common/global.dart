@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Global {
-  static final String _token = '0';
-  static final String _userInfo = '1';
-  static final String _baseUrl = '2';
+  static final String _tokenKey = '0';
+  static final String _userInfoKey = '1';
+  static final String _baseUrlKey = '2';
 
   static final Global _instance = Global._();
   static SharedPreferences _sp;
@@ -24,23 +24,23 @@ class Global {
   }
 
   void setToken(token) {
-    _sp.setString(_token, token);
+    _sp.setString(_tokenKey, token);
   }
 
   String get token {
-    return _sp.getString(_token) ?? '';
+    return _sp.getString(_tokenKey) ?? '';
   }
 
   String get baseUrl {
-    return _sp.getString(_baseUrl);
+    return _sp.getString(_baseUrlKey);
   }
 
   void setUserInfo(String userInfo) {
-    _sp.setString(_userInfo, userInfo);
+    _sp.setString(_userInfoKey, userInfo);
   }
 
   String get userInfo {
-    return _sp.getString(_userInfo);
+    return _sp.getString(_userInfoKey);
   }
 
   void _installBundles(List<Bundle> bundles) {
@@ -48,6 +48,6 @@ class Global {
   }
 
   void _setBaseUrl(String baseUrl) {
-    _sp.setString(baseUrl, baseUrl);
+    _sp.setString(_baseUrlKey, baseUrl);
   }
 }
