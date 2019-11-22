@@ -54,7 +54,10 @@ class Global {
   }
 
   UserInfo get userInfo {
-    return UserInfo.fromMap(jsonDecode(this.userInfoStr));
+    if(userInfoStr == null){
+      return null;
+    }
+    return UserInfo.fromMap(jsonDecode(userInfoStr));
   }
 
   void setUnreadMessage(String message) {
