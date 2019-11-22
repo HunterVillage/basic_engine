@@ -23,7 +23,7 @@ class DioClient<T> {
 
     Response<T> response;
     try {
-      response = await _dio.post(url);
+      response = await _dio.post(url, data: params);
     } on DioError catch (e) {
       print(e);
       Scaffold.of(context).showSnackBar(TipBar.build('网络异常'));
@@ -42,7 +42,7 @@ class DioClient<T> {
 
     Response<T> response;
     try {
-      response = await _dio.get(url);
+      response = await _dio.get(url, queryParameters: params);
     } on DioError catch (e) {
       print(e);
       Scaffold.of(context).showSnackBar(TipBar.build('网络异常'));
