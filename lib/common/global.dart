@@ -62,14 +62,14 @@ class Global {
 
   void setUnreadMessage(String message) {
     String avatar = this.userInfo.avatar;
-    Map<String, List<String>> unreadMessageMap;
+    Map<String, dynamic> unreadMessageMap;
     String unreadMessageStr = this.unreadMessageStr;
     if (unreadMessageStr == null) {
       unreadMessageMap = {};
     } else {
       unreadMessageMap = jsonDecode(unreadMessageStr);
     }
-    List<String> ownMessages = unreadMessageMap[avatar];
+    List<dynamic> ownMessages = unreadMessageMap[avatar];
     if (ownMessages == null) {
       ownMessages = [];
     }
@@ -82,9 +82,9 @@ class Global {
     return _sp.get(_unreadMessageKey);
   }
 
-  List<String> get unreadMessage {
+  List<dynamic> get unreadMessage {
     String avatar = this.userInfo.avatar;
-    Map<String, List<String>> unreadMessageMap;
+    Map<String, dynamic> unreadMessageMap;
     String unreadMessageStr = this.unreadMessageStr;
     if (unreadMessageStr != null) {
       unreadMessageMap = jsonDecode(unreadMessageStr);
