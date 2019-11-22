@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:basic_engine/bundle/bundle.dart';
 import 'package:basic_engine/bundle/bundle_boss.dart';
+import 'package:basic_engine/model/user_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -46,16 +49,46 @@ class Global {
     _sp.setString(_userInfoKey, userInfo);
   }
 
-  String get userInfo {
+  String get userInfoStr {
     return _sp.getString(_userInfoKey);
   }
 
-  void setUnreadMessage(String message) {
-    _sp.setString(_unreadMessageKey, message);
+  UserInfo get userInfo {
+    return UserInfo.fromMap(jsonDecode(this.userInfoStr));
   }
 
-  String get unreadMessage {
+  void setUnreadMessage(String message) {
+    String avatar = this.userInfo.avatar;
+    Map<String, List<String>> unreadMessageMap;
+    String unreadMessageStr = this.unreadMessageStr;
+    if (unreadMessageStr == null) {
+      unreadMessageMap = {};
+    } else {
+      unreadMessageMap = jsonDecode(unreadMessageStr);
+    }
+    List<String> ownMessages = unreadMessageMap[avatar];
+    if (ownMessages == null) {
+      ownMessages = [];
+    }
+    ownMessages.add(message);
+    unreadMessageMap[avatar] = ownMessages;
+    _sp.setString(_unreadMessageKey, jsonEncode(unreadMessageMap));
+  }
+
+  String get unreadMessageStr {
     return _sp.get(_unreadMessageKey);
+  }
+
+  List<String> get unreadMessage {
+    String avatar = this.userInfo.avatar;
+    Map<String, List<String>> unreadMessageMap;
+    String unreadMessageStr = this.unreadMessageStr;
+    if (unreadMessageStr == null) {
+      unreadMessageMap = {};
+    } else {
+      unreadMessageMap = jsonDecode(unreadMessageStr);
+    }
+    return unreadMessageMap[avatar];
   }
 
   void _installBundles(List<Bundle> bundles) {

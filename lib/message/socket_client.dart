@@ -19,7 +19,7 @@ class SocketClient {
   }
 
   Future connect() async {
-    UserInfo userInfo = UserInfo.fromMap(jsonDecode(_global.userInfo));
+    UserInfo userInfo = _global.userInfo;
     _webSocket = await WebSocket.connect(_global.wsUrl, headers: {'avatar': userInfo.avatar}).catchError((e) {
       throw new Exception(e);
     });
