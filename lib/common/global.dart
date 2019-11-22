@@ -54,7 +54,7 @@ class Global {
   }
 
   UserInfo get userInfo {
-    if(userInfoStr == null){
+    if (userInfoStr == null) {
       return null;
     }
     return UserInfo.fromMap(jsonDecode(userInfoStr));
@@ -86,12 +86,12 @@ class Global {
     String avatar = this.userInfo.avatar;
     Map<String, List<String>> unreadMessageMap;
     String unreadMessageStr = this.unreadMessageStr;
-    if (unreadMessageStr == null) {
-      unreadMessageMap = {};
-    } else {
+    if (unreadMessageStr != null) {
       unreadMessageMap = jsonDecode(unreadMessageStr);
+      return unreadMessageMap[avatar] ?? [];
+    } else {
+      return [];
     }
-    return unreadMessageMap[avatar];
   }
 
   void _installBundles(List<Bundle> bundles) {
