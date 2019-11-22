@@ -10,4 +10,10 @@ abstract class MessageListener<T extends StatefulWidget> extends State<T> {
     super.initState();
     MessageSource.getInstance().install(this);
   }
+
+  @override
+  void dispose() {
+    MessageSource.getInstance().uninstall(this);
+    super.dispose();
+  }
 }
