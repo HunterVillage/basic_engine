@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 abstract class Bundle extends StatelessWidget {
-  int getSort();
+  int get sort;
 
-  Widget getIcon();
+  Widget get icon;
 
-  String getId();
+  String get id;
 
-  String getCnName();
+  String get cnName;
 }

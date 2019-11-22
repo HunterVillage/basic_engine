@@ -6,30 +6,23 @@ class BundleDemo1 extends Bundle {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Text('demo1');
+    return Scaffold(
+      appBar: AppBar(
+        leading: Hero(tag: id, child: icon),
+        title: Text('demo1'),
+      ),
+    );
   }
 
   @override
-  Widget getIcon() {
-    // TODO: implement getIcon
-    return Icon(Icons.hourglass_empty);
-  }
+  Widget get icon => Image.asset('assets/images/bundle1.png');
 
   @override
-  String getId() {
-    // TODO: implement getId
-    return 'demo1';
-  }
+  String get id => 'demo1';
 
   @override
-  int getSort() {
-    // TODO: implement getSort
-    return 1;
-  }
+  int get sort => 1;
 
   @override
-  String getCnName() {
-    // TODO: implement getCnName
-    return '功能点一';
-  }
+  String get cnName => '功能点一';
 }

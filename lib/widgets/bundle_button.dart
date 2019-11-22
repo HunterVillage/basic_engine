@@ -4,12 +4,18 @@ typedef void OnTap();
 
 class BundleButton extends StatelessWidget {
   BundleButton.build({
+    @required this.id,
+    this.width = 100.0,
+    this.height = 120.0,
     @required this.text,
     @required this.icon,
     this.backColor = Colors.white,
     @required this.onTap,
   });
 
+  final double width;
+  final double height;
+  final String id;
   final Widget text;
   final Widget icon;
   final Color backColor;
@@ -17,22 +23,19 @@ class BundleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 4.0),
-      child: Material(
-        color: backColor,
-        borderRadius: BorderRadius.all(Radius.circular(4.0)),
-        shadowColor: Colors.black54,
-        elevation: 3,
-        child: MaterialButton(
+    return SizedBox(
+      width: width,
+      height: height,
+      child: InkWell(
+        onTap: onTap,
+        child: Card(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              icon,
-              text,
+              Expanded(flex: 2, child: Center(child: icon)),
+              Divider(height: 1),
+              Expanded(flex: 1, child: Center(child: text)),
             ],
           ),
-          onPressed: onTap,
         ),
       ),
     );

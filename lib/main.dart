@@ -47,11 +47,16 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+      body: PageView(
         children: <Widget>[
-          Wrap(
-            children: this._bundles,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Wrap(
+                children: this._bundles,
+              )
+            ],
           )
         ],
       ),

@@ -5,31 +5,18 @@ import 'bundle/bundle.dart';
 class BundleDemo2 extends Bundle {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Text('demo2');
   }
 
   @override
-  Widget getIcon() {
-    // TODO: implement getIcon
-    return Icon(Icons.pool);
-  }
+  Widget get icon => Image.asset('assets/images/bundle2.png');
 
   @override
-  String getId() {
-    // TODO: implement getId
-    return 'demo2';
-  }
+  String get id => 'demo2';
 
   @override
-  int getSort() {
-    // TODO: implement getSort
-    return 2;
-  }
+  int get sort => 2;
 
   @override
-  String getCnName() {
-    // TODO: implement getCnName
-    return '功能点2';
-  }
+  String get cnName => '功能点二';
 }
