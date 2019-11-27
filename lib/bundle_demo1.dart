@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'bundle/bundle.dart';
 
-class BundleDemo1 extends Bundle {
+class BundleDemo1 extends StatelessBundle {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
