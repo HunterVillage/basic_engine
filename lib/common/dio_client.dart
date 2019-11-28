@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:basic_engine/login/login_request.dart';
 import 'package:basic_engine/widgets/tip_bar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -62,6 +63,9 @@ class DioClient<T> {
       if (responseBody.resend) {
         return get(context, url, params: params);
       }
+      if (responseBody.reLogin) {
+        LoginRequest.logOut(context);
+      }
       return responseBody;
     } else {
       return null;
@@ -77,6 +81,7 @@ class ResponseBody<T> {
   final String _message;
   final bool _resend;
   final String _token;
+  final bool _reLogin;
 
   ResponseBody.fromMap(Map<String, dynamic> map)
       : _success = map['success'],
@@ -85,7 +90,8 @@ class ResponseBody<T> {
         _title = map['title'],
         _message = map['message'],
         _resend = map['resend'],
-        _token = map['token'];
+        _token = map['token'],
+        _reLogin = map['reLogin'];
 
   Map<String, dynamic> toMap() => <String, dynamic>{
         'success': this._success,
@@ -95,6 +101,7 @@ class ResponseBody<T> {
         'message': this._message,
         'resend': this._resend,
         'token': this._token,
+        'reLogin': this._reLogin,
       };
 
   bool get success => _success;
@@ -110,4 +117,6 @@ class ResponseBody<T> {
   T get data => _data;
 
   bool get resend => _resend;
+
+  bool get reLogin => _reLogin;
 }

@@ -11,13 +11,10 @@ class PersonCenterState extends State<PersonCenter> {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: MaterialButton(
-          onPressed: () {
-            LoginRequest.logOut();
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => basicApp), (route) => route == null);
-          },
-          child: Text('Logout'),
-        ),
-      );
+      child: MaterialButton(
+        onPressed: () => LoginRequest.logOut(context),
+        child: Text('Logout'),
+      ),
+    );
   }
 }

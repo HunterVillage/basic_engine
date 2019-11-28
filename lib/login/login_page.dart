@@ -43,7 +43,7 @@ class LoginPageState extends State<LoginPage>
   initState() {
     super.initState();
     animationController = new AnimationController(
-        duration: const Duration(microseconds: 1500), vsync: this)
+        duration: const Duration(seconds: 1), vsync: this)
       ..addListener(() {
         setState(() {});
       });

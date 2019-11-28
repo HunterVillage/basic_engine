@@ -4,6 +4,7 @@ import 'package:basic_engine/basic_app.dart';
 import 'package:basic_engine/common/dio_client.dart';
 import 'package:basic_engine/model/user_info.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class LoginRequest {
   static Future<bool> login(BuildContext context, String userName, String password) async {
@@ -16,9 +17,10 @@ class LoginRequest {
     return true;
   }
 
-  static void logOut() {
+  static void logOut(BuildContext context) {
     global.setUserInfo(null);
     userInfo = null;
     socketClient.closeSocket();
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => basicApp), (route) => route == null);
   }
 }
