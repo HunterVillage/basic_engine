@@ -18,7 +18,7 @@ class DioClient<T> {
 
   Future<ResponseBody<T>> post(BuildContext context, url, {params}) async {
     _global = await Global.getInstance();
-    _dio.options.headers = {'token': 'Bearer ' + _global.token};
+    _dio.options.headers = {'Authorization': 'Bearer ' + _global.token};
     _dio.options.baseUrl = _global.baseUrl;
 
     Response<Map<String, dynamic>> response;
@@ -33,6 +33,9 @@ class DioClient<T> {
       if (responseBody.token != null) {
         _global.setToken(responseBody.token);
       }
+      if (responseBody.resend) {
+        return post(context, url, params: params);
+      }
       return responseBody;
     } else {
       return null;
@@ -41,7 +44,7 @@ class DioClient<T> {
 
   Future<ResponseBody<T>> get(BuildContext context, url, {params}) async {
     _global = await Global.getInstance();
-    _dio.options.headers = {'token': 'Bearer ' + _global.token};
+    _dio.options.headers = {'Authorization': 'Bearer ' + _global.token};
     _dio.options.baseUrl = _global.baseUrl;
 
     Response<Map<String, dynamic>> response;
@@ -56,6 +59,9 @@ class DioClient<T> {
       if (responseBody.token != null) {
         _global.setToken(responseBody.token);
       }
+      if (responseBody.resend) {
+        return get(context, url, params: params);
+      }
       return responseBody;
     } else {
       return null;
@@ -69,6 +75,7 @@ class ResponseBody<T> {
   final T _data;
   final String _title;
   final String _message;
+  final bool _resend;
   final String _token;
 
   ResponseBody.fromMap(Map<String, dynamic> map)
@@ -77,6 +84,7 @@ class ResponseBody<T> {
         _data = map['data'],
         _title = map['title'],
         _message = map['message'],
+        _resend = map['resend'],
         _token = map['token'];
 
   Map<String, dynamic> toMap() => <String, dynamic>{
@@ -85,6 +93,7 @@ class ResponseBody<T> {
         'data': this._data,
         'title': this._title,
         'message': this._message,
+        'resend': this._resend,
         'token': this._token,
       };
 
@@ -99,4 +108,6 @@ class ResponseBody<T> {
   String get category => _category;
 
   T get data => _data;
+
+  bool get resend => _resend;
 }
