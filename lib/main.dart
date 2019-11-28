@@ -1,65 +1,29 @@
+import 'package:basic_engine/basic_app.dart';
+import 'package:basic_engine/bundle/bundle.dart';
 import 'package:flutter/material.dart';
 
-import 'bundle/bundle_boss.dart';
 import 'bundle_demo1.dart';
 import 'bundle_demo2.dart';
 
-void main() {
-  BundleBoss.register(BundleDemo1());
-  BundleBoss.register(BundleDemo2());
-  runApp(MyApp());
-}
+const BASE_URL = 'http://192.168.81.173:8090/app/';
+const WS_URL = 'ws://192.168.81.173:8091';
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
+const LOGO_PATH = "assets/images/logo.png";
+const HOME_TITLE = "BASIC ENGINE";
+const TITLE_LABEL = "Basic Engine";
+const BACKGROUND_PATH = "assets/images/background.png";
+const WELCOME_LABEL = "Albert Einstein: Logic will get you from A to B. Imagination will take you everywhere.";
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+final List<Bundle> bundles = [BundleDemo1(), BundleDemo2()];
 
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  List<Widget> _bundles;
-
-  @override
-  void initState() {
-    super.initState();
-    this._bundles = BundleBoss.mapToWidget(super.context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: PageView(
-        children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Wrap(
-                children: this._bundles,
-              )
-            ],
-          )
-        ],
-      ),
-    );
-  }
+main() async {
+  basicApp = BasicApp(
+    logoPath: LOGO_PATH,
+    homeTitle: HOME_TITLE,
+    loginBackgroundPath: BACKGROUND_PATH,
+    loginTitle: TITLE_LABEL,
+    loginSubTitle: WELCOME_LABEL,
+  );
+  basicApp.preparation(bundles: bundles, baseUrl: BASE_URL, wsUrl: WS_URL);
+  runApp(basicApp);
 }

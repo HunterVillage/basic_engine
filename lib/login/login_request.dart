@@ -8,10 +8,11 @@ import 'package:flutter/cupertino.dart';
 class LoginRequest {
   static Future<bool> login(BuildContext context, String userName, String password) async {
     Map<String, String> params = {'userName': userName, 'password': password};
-    String uStr = await DioClient<String>().post(context, '/login', params: params);
-    if (uStr == null) return false;
-    global.setUserInfo(uStr);
-    userInfo = UserInfo.fromMap(jsonDecode(uStr));
+    ResponseBody<Map<String, dynamic>> response = await DioClient<Map<String, dynamic>>().post(context, '/login', params: params);
+    if (response == null) return false;
+    Map<String, dynamic> userMap = response.data;
+    global.setUserInfo(jsonEncode(userMap));
+    userInfo = UserInfo.fromMap(userMap);
     return true;
   }
 

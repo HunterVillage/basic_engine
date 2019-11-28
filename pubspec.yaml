@@ -47,6 +47,8 @@ flutter:
     - assets/images/bundle1.png
     - assets/images/bundle2.png
     - assets/images/bundle3.png
+    - assets/images/background.png
+    - assets/images/logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
