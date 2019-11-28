@@ -43,12 +43,19 @@ class LoginPageState extends State<LoginPage>
   initState() {
     super.initState();
     animationController = new AnimationController(
-        duration: const Duration(seconds: 2), vsync: this)
+        duration: const Duration(microseconds: 1500), vsync: this)
       ..addListener(() {
         setState(() {});
       });
     enterAnimation = new LoginEnterAnimation(animationController);
     animationController.forward();
+  }
+
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
   }
 
   @override

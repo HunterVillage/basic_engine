@@ -29,7 +29,11 @@ class DioClient<T> {
       Scaffold.of(context).showSnackBar(TipBar.build('网络异常'));
     }
     if (response != null) {
-      return ResponseBody<T>.fromMap(response.data);
+      ResponseBody<T> responseBody = ResponseBody<T>.fromMap(response.data);
+      if (responseBody.token != null) {
+        _global.setToken(responseBody.token);
+      }
+      return responseBody;
     } else {
       return null;
     }
@@ -48,7 +52,11 @@ class DioClient<T> {
       Scaffold.of(context).showSnackBar(TipBar.build('网络异常'));
     }
     if (response != null) {
-      return ResponseBody<T>.fromMap(response.data);
+      ResponseBody<T> responseBody = ResponseBody<T>.fromMap(response.data);
+      if (responseBody.token != null) {
+        _global.setToken(responseBody.token);
+      }
+      return responseBody;
     } else {
       return null;
     }
