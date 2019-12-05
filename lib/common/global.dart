@@ -60,7 +60,7 @@ class Global {
     return UserInfo.fromMap(jsonDecode(userInfoStr));
   }
 
-  void setUnreadMessage(String message) {
+  void setUnreadMessage(dynamic message) {
     String avatar = this.userInfo.avatar;
     Map<String, dynamic> unreadMessageMap;
     String unreadMessageStr = this.unreadMessageStr;

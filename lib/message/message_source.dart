@@ -1,4 +1,5 @@
 
+import 'package:basic_engine/message/message_body.dart';
 import 'package:basic_engine/message/message_listener.dart';
 
 class MessageSource {
@@ -19,7 +20,7 @@ class MessageSource {
     listeners.remove(listener);
   }
 
-  void fireEven(String message) {
-    listeners.forEach((listener) => listener.onReceiveMessage(message));
+  void fireEven(MessageBody messageBody) {
+    listeners.forEach((listener) => listener.onReceiveMessage(messageBody));
   }
 }

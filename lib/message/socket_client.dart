@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:basic_engine/common/global.dart';
+import 'package:basic_engine/login/login_request.dart';
+import 'package:basic_engine/message/message_body.dart';
 import 'package:basic_engine/message/message_source.dart';
 import 'package:basic_engine/model/user_info.dart';
 
@@ -18,7 +20,7 @@ class SocketClient {
     return _socketClient;
   }
 
-  Future connect() async {
+  Future<bool> connect() async {
     UserInfo userInfo = _global.userInfo;
     _webSocket = await WebSocket.connect(_global.wsUrl, headers: {'avatar': userInfo.avatar}).catchError((e) {
       throw new Exception(e);
@@ -26,7 +28,13 @@ class SocketClient {
     _webSocket.readyState;
     void onData(dynamic content) {
       print("收到消息: $content");
-      MessageSource.getInstance().fireEven(content);
+      MessageBody messageBody = MessageBody.fromMap(jsonDecode(content));
+      if (SYS_MESSAGE == messageBody.type) {
+        //TODO 强制下线
+        //        LoginRequest.logOut(context);
+      } else {
+        MessageSource.getInstance().fireEven(messageBody);
+      }
     }
 
     _webSocket.listen(
@@ -41,7 +49,7 @@ class SocketClient {
       },
     );
     _isOpen = true;
-    return;
+    return _isOpen;
   }
 
   void closeSocket() {
@@ -50,10 +58,11 @@ class SocketClient {
     }
   }
 
-  void sendMessage(String message) {
+  sendMessage(String message) {
     if (!_isOpen) {
-      connect();
+      connect().then((isOpen) => _webSocket.add(message));
+    } else {
+      _webSocket.add(message);
     }
-    _webSocket.add(message);
   }
 }

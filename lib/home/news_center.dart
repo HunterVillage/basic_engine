@@ -1,4 +1,5 @@
 import 'package:basic_engine/basic_app.dart';
+import 'package:basic_engine/message/message_body.dart';
 import 'package:basic_engine/message/message_listener.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class NewsCenterState extends MessageListener<NewsCenter> {
         MaterialButton(
           color: Colors.cyan,
           onPressed: () {
-            socketClient.sendMessage('asdfa');
+            socketClient.sendMessage('你好');
           },
           child: Text('send message to server and receive somethind', style: TextStyle(color: Colors.white)),
         ),
@@ -53,9 +54,10 @@ class NewsCenterState extends MessageListener<NewsCenter> {
   }
 
   @override
-  onReceiveMessage(String message) {
-    _unReadMessages.add(message);
-    global.setUnreadMessage(message);
-    widget.onReceive(_unReadMessages.length);
+  onReceiveMessage(MessageBody messageBody) {
+      dynamic message = messageBody.data;
+      _unReadMessages.add(messageBody);
+      global.setUnreadMessage(message);
+      widget.onReceive(_unReadMessages.length);
   }
 }
