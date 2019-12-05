@@ -30,8 +30,7 @@ class SocketClient {
       print("收到消息: $content");
       MessageBody messageBody = MessageBody.fromMap(jsonDecode(content));
       if (SYS_MESSAGE == messageBody.type) {
-        //TODO 强制下线
-        //        LoginRequest.logOut(context);
+        LoginRequest.getInstance().logOut();
       } else {
         MessageSource.getInstance().fireEven(messageBody);
       }

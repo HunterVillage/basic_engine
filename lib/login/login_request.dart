@@ -7,7 +7,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LoginRequest {
-  static Future<bool> login(BuildContext context, String userName, String password) async {
+  LoginRequest._();
+
+  static LoginRequest _instance;
+
+  static LoginRequest getInstance() {
+    if (_instance == null) {
+      _instance = LoginRequest._();
+    }
+    return _instance;
+  }
+
+  Future<bool> login(BuildContext context, String userName, String password) async {
     Map<String, String> params = {'userName': userName, 'password': password};
     ResponseBody<Map<String, dynamic>> response = await DioClient<Map<String, dynamic>>().post(context, '/login', params: params);
     if (response == null) return false;
@@ -17,10 +28,11 @@ class LoginRequest {
     return true;
   }
 
-  static void logOut(BuildContext context) {
+  void logOut() {
     global.setUserInfo(null);
     userInfo = null;
     socketClient.closeSocket();
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => basicApp), (route) => route == null);
+    // TODO 获取当前context
+    //    Router.navigatorKey.currentState.pushAndRemoveUntil(MaterialPageRoute(builder: (_) => basicApp), (route) => route == null);
   }
 }

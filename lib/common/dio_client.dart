@@ -62,7 +62,7 @@ class DioClient<T> {
         return get(context, url, params: params);
       }
       if (responseBody.reLogin) {
-        LoginRequest.logOut(context);
+        LoginRequest.getInstance().logOut();
       }
       return responseBody;
     } else {

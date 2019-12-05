@@ -12,7 +12,7 @@ class PersonCenterState extends State<PersonCenter> {
   Widget build(BuildContext context) {
     return Center(
       child: MaterialButton(
-        onPressed: () => LoginRequest.logOut(context),
+        onPressed: () => LoginRequest.getInstance().logOut(),
         child: Text('Logout'),
       ),
     );

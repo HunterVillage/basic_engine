@@ -159,7 +159,7 @@ class LoginPageState extends State<LoginPage>
           if (validate) {
             _formKey.currentState.save();
             bool success =
-                await LoginRequest.login(context, _userName, _password);
+                await LoginRequest.getInstance().login(context, _userName, _password);
             if (success) {
               await animationController.reverse();
               await socketClient.connect();
