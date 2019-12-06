@@ -27,8 +27,7 @@ class LoginPage extends StatefulWidget {
   State<StatefulWidget> createState() => LoginPageState();
 }
 
-class LoginPageState extends State<LoginPage>
-    with SingleTickerProviderStateMixin {
+class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin {
   LoginEnterAnimation enterAnimation;
   AnimationController animationController;
 
@@ -42,15 +41,13 @@ class LoginPageState extends State<LoginPage>
   @override
   initState() {
     super.initState();
-    animationController = new AnimationController(
-        duration: const Duration(seconds: 1), vsync: this)
+    animationController = new AnimationController(duration: const Duration(seconds: 1), vsync: this)
       ..addListener(() {
         setState(() {});
       });
     enterAnimation = new LoginEnterAnimation(animationController);
     animationController.forward();
   }
-
 
   @override
   void dispose() {
@@ -87,8 +84,7 @@ class LoginPageState extends State<LoginPage>
                   child: _buildTextFormUsername(textTheme),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: size.width * 0.1, vertical: 12),
+                  padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: 12),
                   child: Container(
                     color: Colors.grey,
                     height: 1,
@@ -109,8 +105,7 @@ class LoginPageState extends State<LoginPage>
     return FadeTransition(
       opacity: enterAnimation.userNameOpacity,
       child: TextFormField(
-        style:
-            textTheme.title.copyWith(color: Colors.black87, letterSpacing: 1.2),
+        style: textTheme.title.copyWith(color: Colors.black87, letterSpacing: 1.2),
         decoration: new InputDecoration(
           border: InputBorder.none,
           hintText: USER_NAME_HINT,
@@ -130,8 +125,7 @@ class LoginPageState extends State<LoginPage>
     return FadeTransition(
       opacity: enterAnimation.passowrdOpacity,
       child: TextFormField(
-        style:
-            textTheme.title.copyWith(color: Colors.black87, letterSpacing: 1.2),
+        style: textTheme.title.copyWith(color: Colors.black87, letterSpacing: 1.2),
         decoration: new InputDecoration(
             border: InputBorder.none,
             hintText: PASSWORD_HINT,
@@ -149,24 +143,17 @@ class LoginPageState extends State<LoginPage>
 
   Widget _buildSignButton() {
     return Transform(
-      transform: Matrix4.translationValues(
-          enterAnimation.translation.value * 200,
-          enterAnimation.translation.value * 20,
-          0.0),
+      transform: Matrix4.translationValues(enterAnimation.translation.value * 200, enterAnimation.translation.value * 20, 0.0),
       child: ForwardButton(
         onPressed: () async {
           bool validate = _formKey.currentState.validate();
           if (validate) {
             _formKey.currentState.save();
-            bool success =
-                await LoginRequest.getInstance().login(context, _userName, _password);
+            bool success = await LoginRequest.getInstance().login(context, _userName, _password);
             if (success) {
               await animationController.reverse();
-              await socketClient.connect();
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (_) => basicApp),
-                  (route) => route == null);
+              await app.socketClient.connect();
+              app.navigatorKey.currentState.pushNamedAndRemoveUntil('homePage', (route) => route == null);
             }
           }
         },
@@ -177,8 +164,7 @@ class LoginPageState extends State<LoginPage>
 
   Widget _transTopView(Size size, TextTheme textTheme) {
     return Transform(
-      transform: Matrix4.translationValues(
-          0.0, -enterAnimation.Ytranslation.value * size.height, 0.0),
+      transform: Matrix4.translationValues(0.0, -enterAnimation.Ytranslation.value * size.height, 0.0),
       child: LoginTopBar(
           child: Container(
         height: size.height * 0.67,
@@ -195,13 +181,10 @@ class LoginPageState extends State<LoginPage>
               ),
             ),
             Transform(
-              transform: Matrix4.translationValues(
-                  -enterAnimation.Xtranslation.value * size.width, 0.0, 0.0),
+              transform: Matrix4.translationValues(-enterAnimation.Xtranslation.value * size.width, 0.0, 0.0),
               child: Padding(
-                padding: EdgeInsets.only(
-                    top: size.height * 0.15, left: 24, right: 24),
-                child: HeaderText(
-                    text: widget.titleLabel, imagePath: widget.logoPath),
+                padding: EdgeInsets.only(top: size.height * 0.15, left: 24, right: 24),
+                child: HeaderText(text: widget.titleLabel, imagePath: widget.logoPath),
               ),
             ),
             _buildForm(size, textTheme),
@@ -224,12 +207,7 @@ class LoginPageState extends State<LoginPage>
               opacity: enterAnimation.titleLabelOpacity,
               child: Text(
                 widget.welcomeLabel,
-                style: textTheme.title.copyWith(
-                    fontFamily: 'shouji',
-                    color: Colors.black87,
-                    fontWeight: FontWeight.normal,
-                    wordSpacing: 1.2,
-                    fontSize: 15),
+                style: textTheme.title.copyWith(fontFamily: 'shouji', color: Colors.black87, fontWeight: FontWeight.normal, wordSpacing: 1.2, fontSize: 15),
                 textAlign: TextAlign.center,
               ),
             ),

@@ -1,3 +1,4 @@
+import 'package:basic_engine/app.dart';
 import 'package:basic_engine/basic_app.dart';
 import 'package:basic_engine/bundle/bundle.dart';
 import 'package:flutter/material.dart';
@@ -15,15 +16,15 @@ const BACKGROUND_PATH = "assets/images/background.png";
 const WELCOME_LABEL = "Albert Einstein: Logic will get you from A to B. Imagination will take you everywhere.";
 
 final List<Bundle> bundles = [BundleDemo1(), BundleDemo2()];
+final BasicApp basicApp = BasicApp(
+  logoPath: LOGO_PATH,
+  homeTitle: HOME_TITLE,
+  loginBackgroundPath: BACKGROUND_PATH,
+  loginTitle: TITLE_LABEL,
+  loginSubTitle: WELCOME_LABEL,
+);
 
 main() async {
-  basicApp = BasicApp(
-    logoPath: LOGO_PATH,
-    homeTitle: HOME_TITLE,
-    loginBackgroundPath: BACKGROUND_PATH,
-    loginTitle: TITLE_LABEL,
-    loginSubTitle: WELCOME_LABEL,
-  );
-  await basicApp.preparation(bundles: bundles, baseUrl: BASE_URL, wsUrl: WS_URL);
+  await App.getInstance().init(bundles: bundles, baseUrl: BASE_URL, wsUrl: WS_URL);
   runApp(basicApp);
 }

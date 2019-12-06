@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _pageController = PageController();
-    _unReadMessages = global.unreadMessage;
+    _unReadMessages = app.global.unreadMessage;
     _newsNum = _unReadMessages.length;
   }
 

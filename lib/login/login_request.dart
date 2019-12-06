@@ -23,16 +23,15 @@ class LoginRequest {
     ResponseBody<Map<String, dynamic>> response = await DioClient<Map<String, dynamic>>().post(context, '/login', params: params);
     if (response == null) return false;
     Map<String, dynamic> userMap = response.data;
-    global.setUserInfo(jsonEncode(userMap));
-    userInfo = UserInfo.fromMap(userMap);
+    app.global.setUserInfo(jsonEncode(userMap));
+    app.userInfo = UserInfo.fromMap(userMap);
     return true;
   }
 
   void logOut() {
-    global.setUserInfo(null);
-    userInfo = null;
-    socketClient.closeSocket();
-    // TODO 获取当前context
-    //    Router.navigatorKey.currentState.pushAndRemoveUntil(MaterialPageRoute(builder: (_) => basicApp), (route) => route == null);
+    app.global.setUserInfo(null);
+    app.userInfo = null;
+    app.socketClient.closeSocket();
+    app.navigatorKey.currentState.pushNamedAndRemoveUntil('loginPage', (route) => route == null);
   }
 }

@@ -31,21 +31,21 @@ class NewsCenterState extends MessageListener<NewsCenter> {
         MaterialButton(
           color: Colors.cyan,
           onPressed: () {
-            socketClient.sendMessage('你好');
+            app.socketClient.sendMessage('你好');
           },
           child: Text('send message to server and receive somethind', style: TextStyle(color: Colors.white)),
         ),
         MaterialButton(
           color: Colors.yellowAccent,
           onPressed: () {
-            socketClient.closeSocket();
+            app.socketClient.closeSocket();
           },
           child: Text('close socket'),
         ),
         MaterialButton(
           color: Colors.orange,
           onPressed: () {
-            socketClient.connect();
+            app.socketClient.connect();
           },
           child: Text('reconnetec', style: TextStyle(color: Colors.white)),
         )
@@ -57,7 +57,7 @@ class NewsCenterState extends MessageListener<NewsCenter> {
   onReceiveMessage(MessageBody messageBody) {
       dynamic message = messageBody.data;
       _unReadMessages.add(messageBody);
-      global.setUnreadMessage(message);
+      app.global.setUnreadMessage(message);
       widget.onReceive(_unReadMessages.length);
   }
 }

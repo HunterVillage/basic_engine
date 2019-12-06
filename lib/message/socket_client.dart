@@ -27,7 +27,6 @@ class SocketClient {
     });
     _webSocket.readyState;
     void onData(dynamic content) {
-      print("收到消息: $content");
       MessageBody messageBody = MessageBody.fromMap(jsonDecode(content));
       if (SYS_MESSAGE == messageBody.type) {
         LoginRequest.getInstance().logOut();

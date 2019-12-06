@@ -1,15 +1,9 @@
-import 'package:basic_engine/bundle/bundle.dart';
-import 'package:basic_engine/common/global.dart';
+import 'package:basic_engine/app.dart';
 import 'package:basic_engine/home/home_page.dart';
 import 'package:basic_engine/login/login_page.dart';
-import 'package:basic_engine/message/socket_client.dart';
-import 'package:basic_engine/model/user_info.dart';
 import 'package:flutter/material.dart';
 
-Global global;
-UserInfo userInfo;
-SocketClient socketClient;
-BasicApp basicApp;
+App app = App.getInstance();
 
 class BasicApp extends StatefulWidget {
   final String logoPath;
@@ -29,37 +23,30 @@ class BasicApp extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => BasicAppState();
-
-  Future preparation({@required List<Bundle> bundles, @required String baseUrl, @required String wsUrl}) async {
-    global = await Global.getInstance();
-    socketClient = await SocketClient.getInstance();
-    userInfo = global.userInfo;
-    if (userInfo != null) {
-      await socketClient.connect();
-    }
-    global.init(bundles: bundles, baseUrl: baseUrl, wsUrl: wsUrl);
-  }
 }
 
 class BasicAppState extends State<BasicApp> {
+  var _routers;
+  Widget _loginPage;
+  Widget _homePage;
+
   @override
   void initState() {
     super.initState();
+    _loginPage = LoginPage(backgroundPath: widget.loginBackgroundPath, logoPath: widget.logoPath, titleLabel: widget.loginTitle, welcomeLabel: widget.loginSubTitle);
+    _homePage = HomePage(title: widget.homeTitle);
+    _routers = {'loginPage': (_) => _loginPage, 'homePage': (_) => _homePage};
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget _currentPage = app.userInfo == null ? _loginPage : _homePage;
     return MaterialApp(
+      navigatorKey: app.navigatorKey,
+      routes: _routers,
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: userInfo == null
-          ? LoginPage(
-              backgroundPath: widget.loginBackgroundPath,
-              logoPath: widget.logoPath,
-              titleLabel: widget.loginTitle,
-              welcomeLabel: widget.loginSubTitle,
-            )
-          : HomePage(title: widget.homeTitle),
+      home: _currentPage,
     );
   }
 }
