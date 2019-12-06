@@ -1,5 +1,6 @@
-import 'package:basic_engine/basic_app.dart';
+import 'package:basic_engine/app.dart';
 import 'package:basic_engine/login/login_request.dart';
+import 'package:basic_engine/model/user_info.dart';
 import 'package:flutter/material.dart';
 
 class PersonCenter extends StatefulWidget {
@@ -8,12 +9,34 @@ class PersonCenter extends StatefulWidget {
 }
 
 class PersonCenterState extends State<PersonCenter> {
+  UserInfo _userInfo;
+  String _subName;
+
+  @override
+  void initState() {
+    super.initState();
+    this._userInfo = App.getInstance().userInfo;
+    _subName = _userInfo.name.substring(_userInfo.name.length - 2, _userInfo.name.length);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: MaterialButton(
-        onPressed: () => LoginRequest.getInstance().logOut(),
-        child: Text('Logout'),
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Center(
+            child: CircleAvatar(
+              backgroundColor: Colors.blueGrey,
+              child: Text(_subName, style: TextStyle(color: Colors.white)),
+            ),
+          ),
+          Center(
+            child: MaterialButton(
+              onPressed: () => LoginRequest.getInstance().logOut(),
+              child: Text('Logout'),
+            ),
+          ),
+        ],
       ),
     );
   }

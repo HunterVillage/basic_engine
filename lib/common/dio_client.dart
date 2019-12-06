@@ -69,6 +69,17 @@ class DioClient<T> {
       return null;
     }
   }
+
+  Future download(BuildContext context, url, {params, path = '/storage/', @required name}) async {
+    _global = await Global.getInstance();
+    _dio.options.headers = {'Authorization': 'Bearer ' + _global.token};
+    _dio.options.baseUrl = _global.baseUrl;
+
+    Response response = await _dio.download(url, path + name);
+    if (response.statusCode != 200) {
+      print('网络异常');
+    }
+  }
 }
 
 class ResponseBody<T> {
