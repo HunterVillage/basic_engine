@@ -1,26 +1,22 @@
 import 'package:basic_engine/basic_app.dart';
-import 'package:basic_engine/message/message_body.dart';
-import 'package:basic_engine/message/message_listener.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NewsCenter extends StatefulWidget {
-  final Function onReceive;
   final List<dynamic> unReadMessage;
 
-  NewsCenter({@required this.unReadMessage, @required this.onReceive});
+  NewsCenter({@required this.unReadMessage});
 
   @override
   State<StatefulWidget> createState() => NewsCenterState();
 }
 
-class NewsCenterState extends MessageListener<NewsCenter> {
+class NewsCenterState extends State<NewsCenter> {
   List<dynamic> _unReadMessages = [];
 
   @override
   void initState() {
     super.initState();
-    _unReadMessages = widget.unReadMessage;
   }
 
   @override
@@ -51,13 +47,5 @@ class NewsCenterState extends MessageListener<NewsCenter> {
         )
       ],
     );
-  }
-
-  @override
-  onReceiveMessage(MessageBody messageBody) {
-      dynamic message = messageBody.data;
-      _unReadMessages.add(messageBody);
-      app.global.setUnreadMessage(message);
-      widget.onReceive(_unReadMessages.length);
   }
 }

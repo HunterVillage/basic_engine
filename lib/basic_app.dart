@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 App app = App.getInstance();
 
 class BasicApp extends StatefulWidget {
+  final ThemeData theme;
   final String logoPath;
+  final String appTitle;
   final String homeTitle;
   final String loginTitle;
   final String loginSubTitle;
@@ -15,7 +17,9 @@ class BasicApp extends StatefulWidget {
 
   const BasicApp({
     Key key,
+    this.theme,
     @required this.logoPath,
+    this.appTitle = '',
     @required this.homeTitle,
     @required this.loginTitle,
     @required this.loginSubTitle,
@@ -28,7 +32,7 @@ class BasicApp extends StatefulWidget {
 }
 
 class BasicAppState extends State<BasicApp> {
-  var _routers;
+  Map<String, WidgetBuilder> _routers;
   Widget _loginPage;
   Widget _homePage;
 
@@ -37,8 +41,8 @@ class BasicAppState extends State<BasicApp> {
     super.initState();
     _loginPage = LoginPage(backgroundPath: widget.loginBackgroundPath, logoPath: widget.logoPath, titleLabel: widget.loginTitle, welcomeLabel: widget.loginSubTitle);
     _homePage = HomePage(title: widget.homeTitle);
-    _routers = widget.routers;
-    _routers.addAll({'loginPage': (_) => _loginPage, 'homePage': (_) => _homePage});
+    _routers = {'loginPage': (_) => _loginPage, 'homePage': (_) => _homePage};
+    _routers.addAll(widget.routers);
   }
 
   @override
@@ -47,8 +51,8 @@ class BasicAppState extends State<BasicApp> {
     return MaterialApp(
       navigatorKey: app.navigatorKey,
       routes: _routers,
-      title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      title: widget.appTitle,
+      theme: widget.theme,
       home: _currentPage,
     );
   }

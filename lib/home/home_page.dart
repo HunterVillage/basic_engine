@@ -3,6 +3,8 @@ import 'package:basic_engine/home/menu_center.dart';
 import 'package:basic_engine/home/news_center.dart';
 import 'package:basic_engine/home/person_center.dart';
 import 'package:basic_engine/home/widgets/bottom_navy_bar.dart';
+import 'package:basic_engine/message/message_body.dart';
+import 'package:basic_engine/message/message_listener.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,7 +16,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends MessageListener<HomePage> {
   int _currentIndex = 0;
   PageController _pageController;
 
@@ -30,6 +32,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  onReceiveMessage(MessageBody messageBody) {
+    dynamic message = messageBody.data;
+    _unReadMessages.add(messageBody);
+    app.global.setUnreadMessage(message);
+    this.setState(() => _newsNum = _unReadMessages.length);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
@@ -41,12 +51,7 @@ class _HomePageState extends State<HomePage> {
           },
           children: <Widget>[
             MenuCenter(),
-            NewsCenter(
-              unReadMessage: _unReadMessages,
-              onReceive: (value) {
-                this.setState(() => _newsNum = value);
-              },
-            ),
+            NewsCenter(unReadMessage: _unReadMessages),
             PersonCenter(),
           ],
         ),

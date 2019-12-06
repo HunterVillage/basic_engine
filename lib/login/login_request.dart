@@ -18,14 +18,10 @@ class LoginRequest {
     return _instance;
   }
 
-  Future<bool> login(BuildContext context, String userName, String password) async {
+  Future<ResponseBody<Map<String, dynamic>>> login(BuildContext context, String userName, String password) async {
     Map<String, String> params = {'userName': userName, 'password': password};
     ResponseBody<Map<String, dynamic>> response = await DioClient<Map<String, dynamic>>().post(context, '/login', params: params);
-    if (response == null) return false;
-    Map<String, dynamic> userMap = response.data;
-    app.global.setUserInfo(jsonEncode(userMap));
-    app.userInfo = UserInfo.fromMap(userMap);
-    return true;
+    return response;
   }
 
   void logOut() {

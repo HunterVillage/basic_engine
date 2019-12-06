@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:basic_engine/basic_app.dart';
+import 'package:basic_engine/common/dio_client.dart';
 import 'package:basic_engine/login/utility/color_utility.dart';
 import 'package:basic_engine/login/utility/login_constant.dart';
 import 'package:basic_engine/login/widgets/forward_button.dart';
 import 'package:basic_engine/login/widgets/header_text.dart';
 import 'package:basic_engine/login/widgets/login_top_bar.dart';
+import 'package:basic_engine/model/user_info.dart';
+import 'package:basic_engine/widgets/tip_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'login_animation.dart';
@@ -61,11 +66,15 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
     final TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
       backgroundColor: Color(getColorHexFromStr(COLOR_LOGIN)),
-      body: Stack(
-        children: <Widget>[
-          _transTopView(size, textTheme),
-          _transBottomView(size, textTheme),
-        ],
+      body: Builder(
+        builder: (BuildContext context) {
+          return Stack(
+            children: <Widget>[
+              _transTopView(size, textTheme),
+              _transBottomView(size, textTheme, context),
+            ],
+          );
+        },
       ),
     );
   }
@@ -141,7 +150,7 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
     );
   }
 
-  Widget _buildSignButton() {
+  Widget _buildSignButton(context) {
     return Transform(
       transform: Matrix4.translationValues(enterAnimation.translation.value * 200, enterAnimation.translation.value * 20, 0.0),
       child: ForwardButton(
@@ -149,11 +158,20 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
           bool validate = _formKey.currentState.validate();
           if (validate) {
             _formKey.currentState.save();
-            bool success = await LoginRequest.getInstance().login(context, _userName, _password);
-            if (success) {
-              await animationController.reverse();
-              await app.socketClient.connect();
-              app.navigatorKey.currentState.pushNamedAndRemoveUntil('homePage', (route) => route == null);
+            ResponseBody<Map<String, dynamic>> response = await LoginRequest.getInstance().login(context, _userName, _password);
+            if (response != null) {
+              if (response.success) {
+                Map<String, dynamic> userMap = response.data;
+                app.global.setUserInfo(jsonEncode(userMap));
+                app.userInfo = UserInfo.fromMap(userMap);
+                await animationController.reverse();
+                await app.socketClient.connect();
+                app.navigatorKey.currentState.pushNamedAndRemoveUntil('homePage', (route) => route == null);
+              } else {
+                Scaffold.of(context).showSnackBar(TipBar.build(response.message,color: Colors.deepOrange));
+              }
+            } else {
+              Scaffold.of(context).showSnackBar(TipBar.build('网络异常'));
             }
           }
         },
@@ -194,7 +212,7 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
     );
   }
 
-  Widget _transBottomView(Size size, TextTheme textTheme) {
+  Widget _transBottomView(Size size, TextTheme textTheme,context) {
     return Padding(
       padding: EdgeInsets.only(top: size.height * 0.72),
       child: Container(
@@ -211,7 +229,7 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
                 textAlign: TextAlign.center,
               ),
             ),
-            _buildSignButton(),
+            _buildSignButton(context),
           ],
         ),
       ),
