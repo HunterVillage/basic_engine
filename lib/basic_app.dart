@@ -11,6 +11,7 @@ class BasicApp extends StatefulWidget {
   final String loginTitle;
   final String loginSubTitle;
   final String loginBackgroundPath;
+  final Map<String, WidgetBuilder> routers;
 
   const BasicApp({
     Key key,
@@ -19,6 +20,7 @@ class BasicApp extends StatefulWidget {
     @required this.loginTitle,
     @required this.loginSubTitle,
     @required this.loginBackgroundPath,
+    this.routers = const <String, WidgetBuilder>{},
   }) : super(key: key);
 
   @override
@@ -35,7 +37,8 @@ class BasicAppState extends State<BasicApp> {
     super.initState();
     _loginPage = LoginPage(backgroundPath: widget.loginBackgroundPath, logoPath: widget.logoPath, titleLabel: widget.loginTitle, welcomeLabel: widget.loginSubTitle);
     _homePage = HomePage(title: widget.homeTitle);
-    _routers = {'loginPage': (_) => _loginPage, 'homePage': (_) => _homePage};
+    _routers = widget.routers;
+    _routers.addAll({'loginPage': (_) => _loginPage, 'homePage': (_) => _homePage});
   }
 
   @override

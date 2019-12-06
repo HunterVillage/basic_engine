@@ -8,7 +8,7 @@ class App {
   static App _instance;
 
   Global _global;
-  UserInfo _userInfo;
+  UserInfo userInfo;
   SocketClient _socketClient;
   GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
 
@@ -24,20 +24,14 @@ class App {
   Future init({@required List<Bundle> bundles, @required String baseUrl, @required String wsUrl}) async {
     _global = await Global.getInstance();
     _socketClient = await SocketClient.getInstance();
-    _userInfo = _global.userInfo;
-    if (_userInfo != null) {
+    userInfo = _global.userInfo;
+    if (userInfo != null) {
       await _socketClient.connect();
     }
     _global.init(bundles: bundles, baseUrl: baseUrl, wsUrl: wsUrl);
   }
 
   Global get global => _global;
-
-  UserInfo get userInfo => _userInfo;
-
-  set userInfo(UserInfo value) {
-    _userInfo = value;
-  }
 
   SocketClient get socketClient => _socketClient;
 
