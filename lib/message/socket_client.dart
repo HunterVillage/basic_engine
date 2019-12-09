@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:basic_engine/common/global.dart';
-import 'package:basic_engine/login/login_request.dart';
+import 'package:basic_engine/common/login_request.dart';
 import 'package:basic_engine/message/message_body.dart';
 import 'package:basic_engine/message/message_source.dart';
 import 'package:basic_engine/model/user_info.dart';

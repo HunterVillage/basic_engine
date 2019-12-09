@@ -1,18 +1,13 @@
-import 'dart:convert';
-
 import 'package:basic_engine/basic_app.dart';
-import 'package:basic_engine/common/dio_client.dart';
+import 'package:basic_engine/common/login_request.dart';
 import 'package:basic_engine/login/utility/color_utility.dart';
 import 'package:basic_engine/login/utility/login_constant.dart';
 import 'package:basic_engine/login/widgets/forward_button.dart';
 import 'package:basic_engine/login/widgets/header_text.dart';
 import 'package:basic_engine/login/widgets/login_top_bar.dart';
-import 'package:basic_engine/model/user_info.dart';
-import 'package:basic_engine/widgets/tip_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'login_animation.dart';
-import 'login_request.dart';
 
 class LoginPage extends StatefulWidget {
   final String backgroundPath;
@@ -158,20 +153,10 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
           bool validate = _formKey.currentState.validate();
           if (validate) {
             _formKey.currentState.save();
-            ResponseBody<Map<String, dynamic>> response = await LoginRequest.getInstance().login(context, _userName, _password);
-            if (response != null) {
-              if (response.success) {
-                Map<String, dynamic> userMap = response.data;
-                app.global.setUserInfo(jsonEncode(userMap));
-                app.userInfo = UserInfo.fromMap(userMap);
-                await animationController.reverse();
-                await app.socketClient.connect();
-                app.navigatorKey.currentState.pushNamedAndRemoveUntil('homePage', (route) => route == null);
-              } else {
-                Scaffold.of(context).showSnackBar(TipBar.build(response.message,color: Colors.deepOrange));
-              }
-            } else {
-              Scaffold.of(context).showSnackBar(TipBar.build('网络异常'));
+            bool success = await LoginRequest.getInstance().login(context, _userName, _password);
+            if(success){
+              await animationController.reverse();
+              app.navigatorKey.currentState.pushNamedAndRemoveUntil('homePage', (route) => route == null);
             }
           }
         },

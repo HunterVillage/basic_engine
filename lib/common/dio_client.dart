@@ -1,4 +1,4 @@
-import 'package:basic_engine/login/login_request.dart';
+import 'package:basic_engine/common/login_request.dart';
 import 'package:basic_engine/widgets/tip_bar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';

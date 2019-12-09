@@ -7,24 +7,18 @@ App app = App.getInstance();
 
 class BasicApp extends StatefulWidget {
   final ThemeData theme;
-  final String logoPath;
   final String appTitle;
   final String homeTitle;
-  final String loginTitle;
-  final String loginSubTitle;
-  final String loginBackgroundPath;
   final Map<String, WidgetBuilder> routers;
+  final Widget loginPage;
 
   const BasicApp({
     Key key,
     this.theme,
-    @required this.logoPath,
     this.appTitle = '',
     @required this.homeTitle,
-    @required this.loginTitle,
-    @required this.loginSubTitle,
-    @required this.loginBackgroundPath,
     this.routers = const <String, WidgetBuilder>{},
+    this.loginPage,
   }) : super(key: key);
 
   @override
@@ -39,7 +33,15 @@ class BasicAppState extends State<BasicApp> {
   @override
   void initState() {
     super.initState();
-    _loginPage = LoginPage(backgroundPath: widget.loginBackgroundPath, logoPath: widget.logoPath, titleLabel: widget.loginTitle, welcomeLabel: widget.loginSubTitle);
+    if (widget.loginPage == null) {
+      _loginPage = LoginPage(
+          backgroundPath: 'assets/images/background.png',
+          logoPath: 'assets/images/logo.png',
+          titleLabel: 'Basic Engine',
+          welcomeLabel: 'Albert Einstein: Logic will get you from A to B. Imagination will take you everywhere.');
+    } else {
+      _loginPage = widget.loginPage;
+    }
     _homePage = HomePage(title: widget.homeTitle);
     _routers = {'loginPage': (_) => _loginPage, 'homePage': (_) => _homePage};
     _routers.addAll(widget.routers);

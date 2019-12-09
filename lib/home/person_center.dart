@@ -1,5 +1,5 @@
 import 'package:basic_engine/app.dart';
-import 'package:basic_engine/login/login_request.dart';
+import 'package:basic_engine/common/login_request.dart';
 import 'package:basic_engine/model/user_info.dart';
 import 'package:flutter/material.dart';
 
