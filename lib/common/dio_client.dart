@@ -70,14 +70,15 @@ class DioClient<T> {
     }
   }
 
-  Future download(BuildContext context, url, {params, path = '/storage/', @required name}) async {
+  Future download(BuildContext context, url, {Map<String, dynamic> queryParameters, @required path}) async {
     _global = await Global.getInstance();
     _dio.options.headers = {'Authorization': 'Bearer ' + _global.token};
     _dio.options.baseUrl = _global.baseUrl;
+    _dio.options.responseType = ResponseType.stream;
 
-    Response response = await _dio.download(url, path + name);
+    Response response = await _dio.download('url', path, queryParameters: queryParameters);
     if (response.statusCode != 200) {
-      print('网络异常');
+      Scaffold.of(context).showSnackBar(TipBar.build('网络异常'));
     }
   }
 }
