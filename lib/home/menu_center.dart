@@ -7,24 +7,19 @@ class MenuCenter extends StatefulWidget {
 }
 
 class MenuCenterState extends State<MenuCenter> {
-  List<Widget> _bundles;
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: <Widget>[
-        Wrap(
-          children: this._bundles,
-        )
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: BundleBoss.mapToWidget(context),
+      ),
     );
   }
 
   @override
   void initState() {
     super.initState();
-    this._bundles = BundleBoss.mapToWidget(super.context);
   }
 }

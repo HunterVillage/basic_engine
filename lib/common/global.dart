@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:basic_engine/bundle/bundle.dart';
-import 'package:basic_engine/bundle/bundle_boss.dart';
 import 'package:basic_engine/model/user_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,8 +21,7 @@ class Global {
     return _instance;
   }
 
-  Future init({@required List<Bundle> bundles, @required String baseUrl, @required wsUrl}) async {
-    _installBundles(bundles);
+  Future init({@required String baseUrl, @required wsUrl}) async {
     _setBaseUrl(baseUrl);
     _setWsUrl(wsUrl);
   }
@@ -92,10 +89,6 @@ class Global {
     } else {
       return [];
     }
-  }
-
-  void _installBundles(List<Bundle> bundles) {
-    bundles.forEach((bundle) => BundleBoss.register(bundle));
   }
 
   void _setBaseUrl(String baseUrl) {

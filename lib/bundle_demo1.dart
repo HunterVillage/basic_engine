@@ -5,7 +5,6 @@ import 'bundle/bundle.dart';
 class BundleDemo1 extends StatelessBundle {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         leading: Hero(tag: id, child: icon),

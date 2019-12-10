@@ -42,6 +42,7 @@ class _HomePageState extends MessageListener<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(title: Text(widget.title)),
       body: SizedBox.expand(
         child: PageView(
