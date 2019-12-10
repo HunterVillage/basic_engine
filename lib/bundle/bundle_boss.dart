@@ -32,13 +32,13 @@ class BundleBoss {
       return Container(
         margin: EdgeInsets.all(6),
         padding: EdgeInsets.all(6),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(5))),
+        decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.vertical(top: Radius.circular(5))),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
               padding: EdgeInsets.symmetric(vertical: 7, horizontal: 10),
-              child: Text(groupName, style: TextStyle(fontSize: 16.0, fontFamily: 'pinshang')),
+              child: Text(groupName, style: TextStyle(fontSize: 16.0, fontFamily: 'pinshang', color: Theme.of(context).primaryColorLight)),
             ),
             Divider(
               height: 20,
@@ -62,7 +62,7 @@ class BundleBoss {
             id: bundle.id,
             text: Padding(
               padding: EdgeInsets.only(bottom: 5),
-              child: Text(bundle.cnName, style: TextStyle(fontSize: 14.0, fontFamily: 'pinshang', color: Colors.black54)),
+              child: Text(bundle.cnName, style: TextStyle(fontSize: 14.0, fontFamily: 'pinshang', color: Theme.of(context).primaryColorLight)),
             ),
             icon: Padding(padding: EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 2), child: bundle.icon),
             onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => bundle))),

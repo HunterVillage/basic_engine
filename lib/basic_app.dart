@@ -29,10 +29,20 @@ class BasicAppState extends State<BasicApp> {
   Map<String, WidgetBuilder> _routers;
   Widget _loginPage;
   Widget _homePage;
+  ThemeData _themeData;
 
   @override
   void initState() {
     super.initState();
+    if (widget.theme == null) {
+      _themeData = ThemeData(
+        backgroundColor: Colors.grey[100],
+        primaryColorLight: Colors.black54,
+        cardColor: Colors.white,
+      );
+    } else {
+      _themeData = widget.theme;
+    }
     if (widget.loginPage == null) {
       _loginPage = LoginPage(
           backgroundPath: 'assets/images/background.png',
@@ -54,7 +64,7 @@ class BasicAppState extends State<BasicApp> {
       navigatorKey: app.navigatorKey,
       routes: _routers,
       title: widget.appTitle,
-      theme: widget.theme,
+      theme: _themeData,
       home: _currentPage,
     );
   }
