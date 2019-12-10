@@ -38,6 +38,8 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
   String _userName;
   String _password;
 
+  bool _buttonDisabled = false;
+
   @override
   initState() {
     super.initState();
@@ -149,14 +151,18 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
     return Transform(
       transform: Matrix4.translationValues(enterAnimation.translation.value * 200, enterAnimation.translation.value * 20, 0.0),
       child: ForwardButton(
+        disabled: _buttonDisabled,
         onPressed: () async {
+          this.setState(() => _buttonDisabled = true);
           bool validate = _formKey.currentState.validate();
           if (validate) {
             _formKey.currentState.save();
             bool success = await LoginRequest.getInstance().login(context, _userName, _password);
-            if(success){
+            if (success) {
               await animationController.reverse();
               app.navigatorKey.currentState.pushNamedAndRemoveUntil('homePage', (route) => route == null);
+            } else {
+              this.setState(() => _buttonDisabled = false);
             }
           }
         },
@@ -197,7 +203,7 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
     );
   }
 
-  Widget _transBottomView(Size size, TextTheme textTheme,context) {
+  Widget _transBottomView(Size size, TextTheme textTheme, context) {
     return Padding(
       padding: EdgeInsets.only(top: size.height * 0.72),
       child: Container(
