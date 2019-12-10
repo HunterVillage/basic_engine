@@ -1,3 +1,4 @@
+import 'package:basic_engine/app.dart';
 import 'package:basic_engine/widgets/bundle_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +18,11 @@ class BundleBoss {
 
   static Map<String, List<Bundle>> get group {
     Map<String, List<Bundle>> groupingBundles = {};
+    List bundleIds = App.getInstance().userInfo.bundleIds;
     _pool.entries.forEach((entry) {
-      List<Bundle> bundles = entry.value.entries.map((entry) => entry.value).toList();
+      List<Bundle> bundles = entry.value.values.where((bundle) => bundleIds.contains(bundle.id)).toList();
       bundles.sort((bundle1, bundle2) => bundle1.sort > bundle2.sort ? 1 : -1);
-      groupingBundles.putIfAbsent(entry.key, () => bundles);
+      if (bundles.length > 0) groupingBundles.putIfAbsent(entry.key, () => bundles);
     });
     return groupingBundles;
   }
