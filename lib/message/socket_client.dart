@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:basic_engine/basic_app.dart';
 import 'package:basic_engine/common/global.dart';
 import 'package:basic_engine/common/login_request.dart';
 import 'package:basic_engine/message/message_body.dart';
@@ -27,7 +28,9 @@ class SocketClient {
     });
     _webSocket.readyState;
     void onData(dynamic content) {
+      /// TODO messageBody格式调整
       MessageBody messageBody = MessageBody.fromMap(jsonDecode(content));
+      app.notifier.showBigTextNotification(messageBody.type, messageBody.data);
       if (SYS_MESSAGE == messageBody.type) {
         LoginRequest.getInstance().logOut();
       } else {

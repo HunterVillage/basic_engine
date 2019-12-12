@@ -34,24 +34,8 @@ class BasicAppState extends State<BasicApp> {
   @override
   void initState() {
     super.initState();
-    if (widget.theme == null) {
-      _themeData = ThemeData(
-        backgroundColor: Colors.grey[100],
-        primaryColorLight: Colors.black54,
-        cardColor: Colors.white,
-      );
-    } else {
-      _themeData = widget.theme;
-    }
-    if (widget.loginPage == null) {
-      _loginPage = LoginPage(
-          backgroundPath: 'assets/images/background.png',
-          logoPath: 'assets/images/logo.png',
-          titleLabel: 'Basic Engine',
-          welcomeLabel: 'Albert Einstein: Logic will get you from A to B. Imagination will take you everywhere.');
-    } else {
-      _loginPage = widget.loginPage;
-    }
+    this._controlTheme();
+    this._controlLoginPage();
     _homePage = HomePage(title: widget.homeTitle);
     _routers = {'loginPage': (_) => _loginPage, 'homePage': (_) => _homePage};
     _routers.addAll(widget.routers);
@@ -67,5 +51,29 @@ class BasicAppState extends State<BasicApp> {
       theme: _themeData,
       home: _currentPage,
     );
+  }
+
+  _controlTheme() {
+    if (widget.theme == null) {
+      _themeData = ThemeData(
+        backgroundColor: Colors.grey[100],
+        primaryColorLight: Colors.black54,
+        cardColor: Colors.white,
+      );
+    } else {
+      _themeData = widget.theme;
+    }
+  }
+
+  _controlLoginPage() {
+    if (widget.loginPage == null) {
+      _loginPage = LoginPage(
+          backgroundPath: 'assets/images/background.png',
+          logoPath: 'assets/images/logo.png',
+          titleLabel: 'Basic Engine',
+          welcomeLabel: 'Albert Einstein: Logic will get you from A to B. Imagination will take you everywhere.');
+    } else {
+      _loginPage = widget.loginPage;
+    }
   }
 }
