@@ -34,6 +34,7 @@ class SocketClient {
         CmdExecutor.execute(messageBody.cmd);
       } else {
         app.notifier.showBigTextNotification(messageBody.title, messageBody.content);
+        app.global.setUnreadMessage(messageBody);
         MessageSource.getInstance().fireEven(messageBody);
       }
     }

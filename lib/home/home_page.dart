@@ -33,8 +33,7 @@ class _HomePageState extends MessageListener<HomePage> {
 
   @override
   onReceiveMessage(MessageBody messageBody) {
-    _unReadMessages.add(messageBody);
-    app.global.setUnreadMessage(messageBody);
+    _unReadMessages = app.global.unreadMessage;
     this.setState(() => _newsNum = _unReadMessages.length);
   }
 
