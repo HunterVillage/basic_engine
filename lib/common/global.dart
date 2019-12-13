@@ -82,8 +82,8 @@ class Global {
     String unreadMessageStr = _sp.get(_unreadMessageKey);
     if (unreadMessageStr != null) {
       unreadMessageMap = jsonDecode(unreadMessageStr);
-      List messageList = unreadMessageMap[avatar].map((item) => jsonDecode(item)).toList();
-      return messageList != null && messageList.length > 0 ? MessageBody.allFromMap(messageList) : [];
+      List messageList = unreadMessageMap[avatar];
+      return messageList != null && messageList.length > 0 ? MessageBody.allFromMap(messageList.map((item) => jsonDecode(item)).toList()) : [];
     } else {
       return [];
     }
