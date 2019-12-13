@@ -7,14 +7,14 @@ import 'package:basic_engine/widgets/tip_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class LoginRequest {
-  LoginRequest._();
+class LoginControl {
+  LoginControl._();
 
-  static LoginRequest _instance;
+  static LoginControl _instance;
 
-  static LoginRequest getInstance() {
+  static LoginControl getInstance() {
     if (_instance == null) {
-      _instance = LoginRequest._();
+      _instance = LoginControl._();
     }
     return _instance;
   }

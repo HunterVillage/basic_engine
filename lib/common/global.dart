@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:basic_engine/message/message_body.dart';
 import 'package:basic_engine/model/user_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -57,10 +58,10 @@ class Global {
     return UserInfo.fromMap(jsonDecode(userInfoStr));
   }
 
-  void setUnreadMessage(dynamic message) {
+  void setUnreadMessage(MessageBody messageBody) {
     String avatar = this.userInfo.avatar;
     Map<String, dynamic> unreadMessageMap;
-    String unreadMessageStr = this.unreadMessageStr;
+    String unreadMessageStr = _sp.get(_unreadMessageKey);
     if (unreadMessageStr == null) {
       unreadMessageMap = {};
     } else {
@@ -70,22 +71,19 @@ class Global {
     if (ownMessages == null) {
       ownMessages = [];
     }
-    ownMessages.add(message);
+    ownMessages.add(jsonEncode(messageBody.toMap()));
     unreadMessageMap[avatar] = ownMessages;
     _sp.setString(_unreadMessageKey, jsonEncode(unreadMessageMap));
   }
 
-  String get unreadMessageStr {
-    return _sp.get(_unreadMessageKey);
-  }
-
-  List<dynamic> get unreadMessage {
+  List<MessageBody> get unreadMessage {
     String avatar = this.userInfo.avatar;
     Map<String, dynamic> unreadMessageMap;
-    String unreadMessageStr = this.unreadMessageStr;
+    String unreadMessageStr = _sp.get(_unreadMessageKey);
     if (unreadMessageStr != null) {
       unreadMessageMap = jsonDecode(unreadMessageStr);
-      return unreadMessageMap[avatar] ?? [];
+      List messageList = unreadMessageMap[avatar].map((item) => jsonDecode(item)).toList();
+      return messageList != null && messageList.length > 0 ? MessageBody.allFromMap(messageList) : [];
     } else {
       return [];
     }

@@ -1,5 +1,5 @@
 import 'package:basic_engine/basic_app.dart';
-import 'package:basic_engine/common/login_request.dart';
+import 'package:basic_engine/common/login_control.dart';
 import 'package:basic_engine/login/utility/color_utility.dart';
 import 'package:basic_engine/login/utility/login_constant.dart';
 import 'package:basic_engine/login/widgets/forward_button.dart';
@@ -157,7 +157,7 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
           bool validate = _formKey.currentState.validate();
           if (validate) {
             _formKey.currentState.save();
-            bool success = await LoginRequest.getInstance().login(context, _userName, _password);
+            bool success = await LoginControl.getInstance().login(context, _userName, _password);
             if (success) {
               await animationController.reverse();
               app.navigatorKey.currentState.pushNamedAndRemoveUntil('homePage', (route) => route == null);

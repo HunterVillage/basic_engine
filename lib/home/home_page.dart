@@ -21,7 +21,7 @@ class _HomePageState extends MessageListener<HomePage> {
   PageController _pageController;
 
   int _newsNum;
-  List<dynamic> _unReadMessages = [];
+  List<MessageBody> _unReadMessages = [];
 
   @override
   void initState() {
@@ -33,9 +33,8 @@ class _HomePageState extends MessageListener<HomePage> {
 
   @override
   onReceiveMessage(MessageBody messageBody) {
-    dynamic message = messageBody.data;
     _unReadMessages.add(messageBody);
-    app.global.setUnreadMessage(message);
+    app.global.setUnreadMessage(messageBody);
     this.setState(() => _newsNum = _unReadMessages.length);
   }
 

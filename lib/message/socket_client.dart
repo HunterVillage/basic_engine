@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:basic_engine/basic_app.dart';
 import 'package:basic_engine/common/global.dart';
-import 'package:basic_engine/common/login_request.dart';
+import 'package:basic_engine/message/cmd_executor.dart';
 import 'package:basic_engine/message/message_body.dart';
 import 'package:basic_engine/message/message_source.dart';
 import 'package:basic_engine/model/user_info.dart';
@@ -28,12 +28,12 @@ class SocketClient {
     });
     _webSocket.readyState;
     void onData(dynamic content) {
-      /// TODO messageBody格式调整
       MessageBody messageBody = MessageBody.fromMap(jsonDecode(content));
-      app.notifier.showBigTextNotification(messageBody.type, messageBody.data);
+
       if (SYS_MESSAGE == messageBody.type) {
-        LoginRequest.getInstance().logOut();
+        CmdExecutor.execute(messageBody.cmd);
       } else {
+        app.notifier.showBigTextNotification(messageBody.title, messageBody.content);
         MessageSource.getInstance().fireEven(messageBody);
       }
     }

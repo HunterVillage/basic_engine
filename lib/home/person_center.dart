@@ -1,5 +1,5 @@
 import 'package:basic_engine/app.dart';
-import 'package:basic_engine/common/login_request.dart';
+import 'package:basic_engine/common/login_control.dart';
 import 'package:basic_engine/model/user_info.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +32,7 @@ class PersonCenterState extends State<PersonCenter> {
           ),
           Center(
             child: MaterialButton(
-              onPressed: () => LoginRequest.getInstance().logOut(),
+              onPressed: () => LoginControl.getInstance().logOut(),
               child: Text('Logout'),
             ),
           ),
