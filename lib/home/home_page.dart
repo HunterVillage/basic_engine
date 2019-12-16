@@ -30,7 +30,9 @@ class _HomePageState extends State<HomePage> {
     _pageController = PageController();
     _newsNum = app.global.unreadMessage.length;
 
-    messageSubject.stream.listen((messageBody) => this.setState(() => _newsNum = app.global.unreadMessage.length));
+    messageSubject.stream.listen((messageBody) {
+      if (mounted) this.setState(() => _newsNum = app.global.unreadMessage.length);
+    });
 
     notifierSubject.stream.listen((id) {
       if (mounted && !detailIsOpen) {
