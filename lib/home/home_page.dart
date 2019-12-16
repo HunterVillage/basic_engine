@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
 
     notifierSubject.stream.listen((id) {
       this.setState(() => _currentIndex = 1);
+      _pageController.jumpToPage(_currentIndex);
       MessageBody messageBody = app.global.unreadMessage.singleWhere((item) => item.id == id);
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewsDetail(messageBody.title, messageBody.content)));
     });
