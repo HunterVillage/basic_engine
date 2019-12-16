@@ -1,6 +1,8 @@
 import 'package:basic_engine/app.dart';
 import 'package:basic_engine/home/home_page.dart';
 import 'package:basic_engine/login/login_page.dart';
+import 'package:basic_engine/message/notifier.dart';
+import 'package:basic_engine/message/socket_client.dart';
 import 'package:flutter/material.dart';
 
 App app = App.getInstance();
@@ -39,6 +41,13 @@ class BasicAppState extends State<BasicApp> {
     _homePage = HomePage(title: widget.homeTitle);
     _routers = {'loginPage': (_) => _loginPage, 'homePage': (_) => _homePage};
     _routers.addAll(widget.routers);
+  }
+
+  @override
+  void dispose() {
+    messageSubject.close();
+    notifierSubject.close();
+    super.dispose();
   }
 
   @override
