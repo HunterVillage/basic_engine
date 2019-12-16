@@ -121,7 +121,14 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
         ),
         keyboardType: TextInputType.text,
         controller: _userNameController,
-        validator: (val) => val.length == 0 ? USER_NAME_VALIDATION_EMPTY : null,
+        validator: (val) {
+          if (val.length == 0) {
+            this.setState(() => _buttonDisabled = false);
+            return USER_NAME_VALIDATION_EMPTY;
+          } else {
+            return null;
+          }
+        },
         onSaved: (val) => _userName = val,
       ),
     );
@@ -141,7 +148,14 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
         keyboardType: TextInputType.text,
         controller: _passwordController,
         obscureText: true,
-        validator: (val) => val.length == 0 ? USER_NAME_VALIDATION_EMPTY : null,
+        validator: (val) {
+          if (val.length == 0) {
+            this.setState(() => _buttonDisabled = false);
+            return USER_NAME_VALIDATION_EMPTY;
+          } else {
+            return null;
+          }
+        },
         onSaved: (val) => _password = val,
       ),
     );
