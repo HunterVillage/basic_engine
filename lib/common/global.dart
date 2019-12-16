@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:basic_engine/message/message_body.dart';
+import 'package:basic_engine/message/socket_client.dart';
 import 'package:basic_engine/model/user_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,6 +26,8 @@ class Global {
   Future init({@required String baseUrl, @required wsUrl}) async {
     _setBaseUrl(baseUrl);
     _setWsUrl(wsUrl);
+
+    messageSubject.stream.listen((messageBody) => setUnreadMessage(messageBody));
   }
 
   void setToken(token) {

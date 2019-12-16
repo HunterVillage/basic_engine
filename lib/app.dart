@@ -18,6 +18,7 @@ class App {
   App._();
 
   static App getInstance() {
+    WidgetsFlutterBinding.ensureInitialized();
     if (_instance == null) {
       _instance = App._();
     }

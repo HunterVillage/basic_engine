@@ -2,28 +2,27 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:basic_engine/basic_app.dart';
-import 'package:basic_engine/common/global.dart';
 import 'package:basic_engine/message/cmd_executor.dart';
 import 'package:basic_engine/message/message_body.dart';
-import 'package:basic_engine/message/message_source.dart';
 import 'package:basic_engine/model/user_info.dart';
+import 'package:rxdart/rxdart.dart';
+
+final BehaviorSubject<MessageBody> messageSubject = BehaviorSubject<MessageBody>();
 
 class SocketClient {
   static SocketClient _socketClient = new SocketClient._();
   WebSocket _webSocket;
   bool _isOpen;
-  static Global _global;
 
   SocketClient._();
 
   static Future<SocketClient> getInstance() async {
-    _global = await Global.getInstance();
     return _socketClient;
   }
 
   Future<bool> connect() async {
-    UserInfo userInfo = _global.userInfo;
-    _webSocket = await WebSocket.connect(_global.wsUrl, headers: {'avatar': userInfo.avatar}).catchError((e) {
+    UserInfo userInfo = app.userInfo;
+    _webSocket = await WebSocket.connect(app.global.wsUrl, headers: {'avatar': userInfo.avatar}).catchError((e) {
       throw new Exception(e);
     });
     _webSocket.readyState;
@@ -33,21 +32,19 @@ class SocketClient {
       if (SYS_MESSAGE == messageBody.type) {
         CmdExecutor.execute(messageBody.cmd);
       } else {
-        app.notifier.showBigTextNotification(messageBody.title, messageBody.content);
-        app.global.setUnreadMessage(messageBody);
-        MessageSource.getInstance().fireEven(messageBody);
+        messageSubject.add(messageBody);
       }
     }
 
     _webSocket.listen(
       onData,
-      onError: (a) {
-        print("error");
+      onError: (error) {
         _isOpen = false;
+        print("Websocket was interrupted by error: $error.");
       },
       onDone: () {
-        print("done");
         _isOpen = false;
+        print("Websocke has been closed.");
       },
     );
     _isOpen = true;

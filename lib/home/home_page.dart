@@ -1,10 +1,12 @@
 import 'package:basic_engine/basic_app.dart';
-import 'package:basic_engine/home/menu_center.dart';
-import 'package:basic_engine/home/news_center.dart';
-import 'package:basic_engine/home/person_center.dart';
+import 'package:basic_engine/home/tabs/menu_center.dart';
+import 'package:basic_engine/home/tabs/news_center.dart';
+import 'package:basic_engine/home/tabs/news_detail.dart';
+import 'package:basic_engine/home/tabs/person_center.dart';
 import 'package:basic_engine/home/widgets/bottom_navy_bar.dart';
 import 'package:basic_engine/message/message_body.dart';
-import 'package:basic_engine/message/message_listener.dart';
+import 'package:basic_engine/message/notifier.dart';
+import 'package:basic_engine/message/socket_client.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,25 +18,24 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends MessageListener<HomePage> {
-  int _currentIndex = 0;
+class _HomePageState extends State<HomePage> {
   PageController _pageController;
-
+  int _currentIndex = 0;
   int _newsNum;
-  List<MessageBody> _unReadMessages = [];
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
-    _unReadMessages = app.global.unreadMessage;
-    _newsNum = _unReadMessages.length;
-  }
+    _newsNum = app.global.unreadMessage.length;
 
-  @override
-  onReceiveMessage(MessageBody messageBody) {
-    _unReadMessages = app.global.unreadMessage;
-    this.setState(() => _newsNum = _unReadMessages.length);
+    messageSubject.stream.listen((messageBody) => this.setState(() => _newsNum = app.global.unreadMessage.length));
+
+    notifierSubject.stream.listen((id) {
+      this.setState(() => _currentIndex = 1);
+      MessageBody messageBody = app.global.unreadMessage.singleWhere((item) => item.id == id);
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewsDetail(messageBody.title, messageBody.content)));
+    });
   }
 
   @override
@@ -50,7 +51,7 @@ class _HomePageState extends MessageListener<HomePage> {
           },
           children: <Widget>[
             MenuCenter(),
-            NewsCenter(unReadMessage: _unReadMessages),
+            NewsCenter(),
             PersonCenter(),
           ],
         ),

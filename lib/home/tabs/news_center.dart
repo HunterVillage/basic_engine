@@ -1,12 +1,9 @@
 import 'package:basic_engine/basic_app.dart';
+import 'package:basic_engine/message/socket_client.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NewsCenter extends StatefulWidget {
-  final List<dynamic> unReadMessage;
-
-  NewsCenter({@required this.unReadMessage});
-
   @override
   State<StatefulWidget> createState() => NewsCenterState();
 }
@@ -17,6 +14,8 @@ class NewsCenterState extends State<NewsCenter> {
   @override
   void initState() {
     super.initState();
+    _unReadMessages = app.global.unreadMessage;
+    messageSubject.stream.listen((messageBody) => this.setState(() => _unReadMessages = app.global.unreadMessage));
   }
 
   @override
@@ -24,6 +23,7 @@ class NewsCenterState extends State<NewsCenter> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
+        Text('消息条数:${_unReadMessages.length}'),
         MaterialButton(
           color: Colors.cyan,
           onPressed: () {

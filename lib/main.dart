@@ -16,16 +16,11 @@ const TITLE_LABEL = "Basic Engine";
 const BACKGROUND_PATH = "assets/images/background.png";
 const WELCOME_LABEL = "Albert Einstein: Logic will get you from A to B. Imagination will take you everywhere.";
 
-final BasicApp basicApp = BasicApp(
-  homeTitle: HOME_TITLE,
-//  theme: ThemeData.dark(),
-);
-
-main() async {
+Future<void> main() async {
   App app = App.getInstance();
   app.installBundles('Group A', [BundleDemo1(), BundleDemo2()]);
   app.installBundles('Group B', [BundleDemo3(), BundleDemo4()]);
   app.installBundles('Group C', [BundleDemo1(), BundleDemo2(), BundleDemo3()]);
   await app.init(baseUrl: BASE_URL, wsUrl: WS_URL);
-  runApp(basicApp);
+  runApp(BasicApp(homeTitle: HOME_TITLE));
 }
