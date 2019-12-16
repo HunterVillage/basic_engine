@@ -21,8 +21,10 @@ class NewsDetailState extends State<NewsDetail> {
     super.initState();
     _messageBody = widget.messageBody;
     notifierSubject.stream.listen((id) {
-      MessageBody messageBody = app.global.unreadMessage.singleWhere((item) => item.id == id);
-      this.setState(() => _messageBody = messageBody);
+      if (mounted) {
+        MessageBody messageBody = app.global.unreadMessage.singleWhere((item) => item.id == id);
+        this.setState(() => _messageBody = messageBody);
+      }
     });
   }
 
