@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   PageController _pageController;
   int _currentIndex = 0;
   int _newsNum;
+  bool detailIsOpen = false;
 
   @override
   void initState() {
@@ -32,10 +33,13 @@ class _HomePageState extends State<HomePage> {
     messageSubject.stream.listen((messageBody) => this.setState(() => _newsNum = app.global.unreadMessage.length));
 
     notifierSubject.stream.listen((id) {
-      this.setState(() => _currentIndex = 1);
-      _pageController.jumpToPage(_currentIndex);
-      MessageBody messageBody = app.global.unreadMessage.singleWhere((item) => item.id == id);
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewsDetail(messageBody.title, messageBody.content)));
+      if (!detailIsOpen) {
+        detailIsOpen = true;
+        this.setState(() => _currentIndex = 1);
+        _pageController.jumpToPage(_currentIndex);
+        MessageBody messageBody = app.global.unreadMessage.singleWhere((item) => item.id == id);
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewsDetail(messageBody))).then((value) => detailIsOpen = false);
+      }
     });
   }
 
