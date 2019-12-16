@@ -1,6 +1,5 @@
 import 'package:basic_engine/message/message_body.dart';
 import 'package:basic_engine/message/socket_client.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -21,16 +20,14 @@ class Notifier {
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
     var initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
     var initializationSettings = InitializationSettings(initializationSettingsAndroid, null);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: onSelectNotification);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: (String payload) async {
+      _notificationId--;
+      if (payload != null) {
+        notifierSubject.add(payload);
+      }
+    });
 
     messageSubject.stream.listen((messageBody) => showBigTextNotification(messageBody));
-  }
-
-  Future onSelectNotification(String payload) async {
-    _notificationId--;
-    if (payload != null) {
-      notifierSubject.add(payload);
-    }
   }
 
   Future<void> showBigTextNotification(MessageBody messageBody) async {
