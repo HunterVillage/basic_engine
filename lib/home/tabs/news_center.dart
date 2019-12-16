@@ -15,7 +15,11 @@ class NewsCenterState extends State<NewsCenter> {
   void initState() {
     super.initState();
     _unReadMessages = app.global.unreadMessage;
-    messageSubject.stream.listen((messageBody) => this.setState(() => _unReadMessages = app.global.unreadMessage));
+    messageSubject.stream.listen((messageBody) {
+      if (mounted) {
+        this.setState(() => _unReadMessages = app.global.unreadMessage);
+      }
+    });
   }
 
   @override

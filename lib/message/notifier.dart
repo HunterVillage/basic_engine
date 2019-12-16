@@ -29,7 +29,6 @@ class Notifier {
   Future onSelectNotification(String payload) async {
     _notificationId--;
     if (payload != null) {
-      debugPrint('notification payload: ' + payload);
       notifierSubject.add(payload);
     }
   }

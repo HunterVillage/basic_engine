@@ -11,9 +11,7 @@ class BundleBoss {
 
   static Bundle register(String groupName, Bundle bundle) {
     Map<String, Bundle> bundleMap = _pool.putIfAbsent(groupName, () => {});
-    Bundle registeredModel = bundleMap.putIfAbsent(bundle.id, () => bundle);
-    print('Id of the registered bundle is $registeredModel');
-    return registeredModel;
+    return bundleMap.putIfAbsent(bundle.id, () => bundle);
   }
 
   static Map<String, List<Bundle>> get group {
