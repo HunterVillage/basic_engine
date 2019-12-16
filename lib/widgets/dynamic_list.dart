@@ -118,13 +118,13 @@ class DynamicListState extends State<DynamicList> {
   /// 刷新 数据初始化
   Future<Null> _onRefresh() async {
     List initDataList = await widget.initRequester();
-    this.setState(() => this._dataList = initDataList);
+    if (mounted) this.setState(() => this._dataList = initDataList);
     return;
   }
 
   /// 加载更多数据
   _loadMore() async {
-    this.setState(() => isPerformingRequest = true);
+    if (mounted) this.setState(() => isPerformingRequest = true);
     List newDataList = await widget.dataRequester();
     if (newDataList != null) {
       if (newDataList.length == 0) {
@@ -137,7 +137,7 @@ class DynamicListState extends State<DynamicList> {
         _dataList.addAll(newDataList);
       }
     }
-    this.setState(() => isPerformingRequest = false);
+    if (mounted) this.setState(() => isPerformingRequest = false);
   }
 }
 
@@ -191,7 +191,7 @@ class LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
     final CurvedAnimation curve = CurvedAnimation(parent: controller, curve: Curves.elasticOut);
     animation = Tween(begin: 0.0, end: 30.0).animate(curve)
       ..addListener(() {
-        setState(() {});
+        if (mounted) setState(() {});
       })
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {

@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
     messageSubject.stream.listen((messageBody) => this.setState(() => _newsNum = app.global.unreadMessage.length));
 
     notifierSubject.stream.listen((id) {
-      if (!detailIsOpen) {
+      if (mounted && !detailIsOpen) {
         detailIsOpen = true;
         this.setState(() => _currentIndex = 1);
         _pageController.jumpToPage(_currentIndex);
