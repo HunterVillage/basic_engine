@@ -21,7 +21,7 @@ class LoginControl {
 
   Future<bool> login(BuildContext context, String userName, String password) async {
     Map<String, String> params = {'userName': userName, 'password': password};
-    ResponseBody<Map<String, dynamic>> response = await DioClient<Map<String, dynamic>>().post(context, '/login', params: params);
+    ResponseBody<Map<String, dynamic>> response = await DioClient<Map<String, dynamic>>().post('/login', context: context, params: params);
     if (response != null) {
       if (response.success) {
         Map<String, dynamic> userMap = response.data;

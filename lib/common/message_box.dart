@@ -22,12 +22,14 @@ class MessageBox {
     return _instance;
   }
 
-  // FIXME
   Future<void> init(context) async {
-    ResponseBody responseBody = await DioClient().get(context, '/message/list_own_message');
-    List<MessageBody> allMessageList = responseBody.data;
-    _unreadMessageList = allMessageList.where((item) => item.unread).toList();
-    _alreadyReadMessageList = allMessageList.where((item) => !item.unread).toList();
+    ResponseBody responseBody = await DioClient().get('/message/list_own_message');
+    if (responseBody.success) {
+      List<MessageBody> allMessageList = MessageBody.allFromMap(responseBody.data);
+      _unreadMessageList = allMessageList.where((item) => item.unread).toList();
+      _alreadyReadMessageList = allMessageList.where((item) => !item.unread).toList();
+      messageBoxSubject.add(allMessage());
+    }
   }
 
   void pushUnreadMessage(MessageBody messageBody) {
@@ -37,6 +39,7 @@ class MessageBox {
 
   MessageBody popUnreadMessage(String uuid) {
     MessageBody messageBody = _unreadMessageList.singleWhere((item) => item.uuid == uuid);
+    messageBody.read();
     _unreadMessageList.remove(messageBody);
     _alreadyReadMessageList.add(messageBody);
     messageBoxSubject.add(allMessage());

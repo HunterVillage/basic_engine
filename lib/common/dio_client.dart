@@ -15,7 +15,7 @@ class DioClient<T> {
 
   Global _global;
 
-  Future<ResponseBody<T>> post(BuildContext context, url, {params}) async {
+  Future<ResponseBody<T>> post(url, {BuildContext context, params}) async {
     _global = await Global.getInstance();
     _dio.options.headers = {'Authorization': 'Bearer ' + _global.token};
     _dio.options.baseUrl = _global.baseUrl;
@@ -25,7 +25,7 @@ class DioClient<T> {
       response = await _dio.post(url, data: params);
     } on DioError catch (e) {
       print(e);
-      Scaffold.of(context).showSnackBar(TipBar.build('网络异常'));
+      if (context != null) Scaffold.of(context).showSnackBar(TipBar.build('网络异常'));
     }
     if (response != null) {
       ResponseBody<T> responseBody = ResponseBody<T>.fromMap(response.data);
@@ -33,7 +33,7 @@ class DioClient<T> {
         _global.setToken(responseBody.token);
       }
       if (responseBody.resend) {
-        return post(context, url, params: params);
+        return post(url, context: context, params: params);
       }
       return responseBody;
     } else {
@@ -41,7 +41,7 @@ class DioClient<T> {
     }
   }
 
-  Future<ResponseBody<T>> get(BuildContext context, url, {params}) async {
+  Future<ResponseBody<T>> get(url, {BuildContext context, params}) async {
     _global = await Global.getInstance();
     _dio.options.headers = {'Authorization': 'Bearer ' + _global.token};
     _dio.options.baseUrl = _global.baseUrl;
@@ -51,7 +51,7 @@ class DioClient<T> {
       response = await _dio.get(url, queryParameters: params);
     } on DioError catch (e) {
       print(e);
-      Scaffold.of(context).showSnackBar(TipBar.build('网络异常'));
+      if (context != null) Scaffold.of(context).showSnackBar(TipBar.build('网络异常'));
     }
     if (response != null) {
       ResponseBody<T> responseBody = ResponseBody<T>.fromMap(response.data);
@@ -59,7 +59,7 @@ class DioClient<T> {
         _global.setToken(responseBody.token);
       }
       if (responseBody.resend) {
-        return get(context, url, params: params);
+        return get(url, context: context, params: params);
       }
       if (responseBody.reLogin) {
         LoginControl.getInstance().logOut();

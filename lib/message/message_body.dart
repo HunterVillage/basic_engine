@@ -1,3 +1,5 @@
+import 'package:basic_engine/common/dio_client.dart';
+
 const COMMON_MESSAGE = 'CommonMessage';
 const SYSTEM_ACTION_MESSAGE = 'SystemActionMessage';
 
@@ -8,7 +10,7 @@ class MessageBody {
   final String _sender;
   final String _title;
   final String _content;
-  final bool _unread;
+  bool _unread;
 
   MessageBody.fromMap(Map<String, dynamic> map)
       : this._type = map['type'],
@@ -20,7 +22,11 @@ class MessageBody {
         this._unread = map['unread'];
 
   static List<MessageBody> allFromMap(List jsonList) {
-    return jsonList.map((json) => MessageBody.fromMap(json)).toList();
+    if (jsonList == null || jsonList.length <= 0) {
+      return [];
+    } else {
+      return jsonList.map((json) => MessageBody.fromMap(json)).toList();
+    }
   }
 
   Map<String, dynamic> toMap() => <String, dynamic>{
@@ -32,6 +38,11 @@ class MessageBody {
         'content': this._content,
         'unread': this._unread,
       };
+
+  Future<void> read() async {
+    this._unread = true;
+    await DioClient().get('/message/read', params: {'uuid': _uuid});
+  }
 
   String get type => this._type;
 
