@@ -1,5 +1,5 @@
 import 'package:basic_engine/basic_app.dart';
-import 'package:basic_engine/common/global.dart';
+import 'package:basic_engine/common/message_box.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,14 +9,14 @@ class NewsCenter extends StatefulWidget {
 }
 
 class NewsCenterState extends State<NewsCenter> {
-  List<dynamic> _unReadMessages = [];
+  List<dynamic> _allMessage = [];
 
   @override
   void initState() {
     super.initState();
-    _unReadMessages = app.global.ownUnreadMessage;
-    globalMessageSubject.stream.listen((values) {
-      if (mounted) this.setState(() => _unReadMessages = values);
+    _allMessage = app.messageBox.allMessage();
+    messageBoxSubject.stream.listen((values) {
+      if (mounted) this.setState(() => _allMessage = values);
     });
   }
 
@@ -25,7 +25,7 @@ class NewsCenterState extends State<NewsCenter> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        Text('消息条数:${_unReadMessages.length}'),
+        Text('消息条数:${_allMessage.length}'),
         MaterialButton(
           color: Colors.cyan,
           onPressed: () {

@@ -1,5 +1,5 @@
 import 'package:basic_engine/basic_app.dart';
-import 'package:basic_engine/common/global.dart';
+import 'package:basic_engine/common/message_box.dart';
 import 'package:basic_engine/home/tabs/menu_center.dart';
 import 'package:basic_engine/home/tabs/news_center.dart';
 import 'package:basic_engine/home/tabs/news_detail.dart';
@@ -27,9 +27,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _pageController = PageController();
-    _newsNum = app.global.ownUnreadMessage.length;
+    _newsNum = app.messageBox.allMessage().length;
 
-    globalMessageSubject.stream.listen((values) {
+    messageBoxSubject.stream.listen((values) {
       if (mounted) this.setState(() => _newsNum = values.length);
     });
 

@@ -1,6 +1,7 @@
 import 'package:basic_engine/bundle/bundle.dart';
 import 'package:basic_engine/bundle/bundle_boss.dart';
 import 'package:basic_engine/common/global.dart';
+import 'package:basic_engine/common/message_box.dart';
 import 'package:basic_engine/message/notifier.dart';
 import 'package:basic_engine/message/socket_client.dart';
 import 'package:basic_engine/model/user_info.dart';
@@ -14,6 +15,7 @@ class App {
   SocketClient _socketClient;
   GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
   Notifier _notifier;
+  MessageBox _messageBox;
 
   App._();
 
@@ -29,6 +31,7 @@ class App {
     _global = await Global.getInstance();
     _socketClient = await SocketClient.getInstance();
     _notifier = Notifier.getInstance();
+    _messageBox = MessageBox.getInstance();
     userInfo = _global.userInfo;
     if (userInfo != null) {
       await _socketClient.connect();
@@ -49,5 +52,5 @@ class App {
 
   Notifier get notifier => _notifier;
 
-
+  MessageBox get messageBox => _messageBox;
 }

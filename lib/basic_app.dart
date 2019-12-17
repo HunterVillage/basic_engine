@@ -1,5 +1,5 @@
 import 'package:basic_engine/app.dart';
-import 'package:basic_engine/common/global.dart';
+import 'package:basic_engine/common/message_box.dart';
 import 'package:basic_engine/home/home_page.dart';
 import 'package:basic_engine/login/login_page.dart';
 import 'package:basic_engine/message/notifier.dart';
@@ -46,7 +46,7 @@ class BasicAppState extends State<BasicApp> {
 
   @override
   void dispose() {
-    globalMessageSubject.close();
+    messageBoxSubject.close();
     socketMessageSubject.close();
     notifierSubject.close();
     super.dispose();
