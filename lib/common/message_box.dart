@@ -1,3 +1,4 @@
+import 'package:basic_engine/common/dio_client.dart';
 import 'package:basic_engine/message/message_body.dart';
 import 'package:basic_engine/message/socket_client.dart';
 import 'package:rxdart/subjects.dart';
@@ -8,8 +9,8 @@ final PublishSubject<List<MessageBody>> messageBoxSubject = PublishSubject<List<
 /// @date 2019/12/17 17:06
 class MessageBox {
   static MessageBox _instance;
-  static final List<MessageBody> _unreadMessageList = [];
-  static final List<MessageBody> _alreadyReadMessageList = [];
+  static List<MessageBody> _unreadMessageList = [];
+  static List<MessageBody> _alreadyReadMessageList = [];
 
   MessageBox._();
 
@@ -21,8 +22,12 @@ class MessageBox {
     return _instance;
   }
 
-  void putAllUnreadMessage(List<MessageBody> messageBodyList) {
-    _unreadMessageList.addAll(messageBodyList);
+  // FIXME
+  Future<void> init(context) async {
+    ResponseBody responseBody = await DioClient().get(context, '/message/list_own_message');
+    List<MessageBody> allMessageList = responseBody.data;
+    _unreadMessageList = allMessageList.where((item) => item.unread).toList();
+    _alreadyReadMessageList = allMessageList.where((item) => !item.unread).toList();
   }
 
   void pushUnreadMessage(MessageBody messageBody) {
@@ -36,10 +41,6 @@ class MessageBox {
     _alreadyReadMessageList.add(messageBody);
     messageBoxSubject.add(allMessage());
     return messageBody;
-  }
-
-  void putAllAlreadyReadMessage(List<MessageBody> messageBodyList) {
-    _alreadyReadMessageList.addAll(messageBodyList);
   }
 
   void pushAlreadyReadMessage(MessageBody messageBody) {
