@@ -27,10 +27,10 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _pageController = PageController();
-    _newsNum = app.messageBox.allMessage().length;
+    _newsNum = app.messageBox.unreadMessage().length;
 
     messageBoxSubject.stream.listen((values) {
-      if (mounted) this.setState(() => _newsNum = values.length);
+      if (mounted) this.setState(() => _newsNum = app.messageBox.unreadMessage().length);
     });
 
     notifierSubject.stream.listen((uuid) {

@@ -33,6 +33,8 @@ class MessageBox {
   MessageBody popUnreadMessage(String uuid) {
     MessageBody messageBody = _unreadMessageList.singleWhere((item) => item.uuid == uuid);
     _unreadMessageList.remove(messageBody);
+    _alreadyReadMessageList.add(messageBody);
+    messageBoxSubject.add(allMessage());
     return messageBody;
   }
 
@@ -54,5 +56,9 @@ class MessageBox {
     allMessage.addAll(_unreadMessageList);
     allMessage.addAll(_alreadyReadMessageList);
     return allMessage;
+  }
+
+  List<MessageBody> unreadMessage() {
+    return _unreadMessageList;
   }
 }
