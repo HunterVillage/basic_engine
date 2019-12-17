@@ -1,12 +1,11 @@
 import 'package:basic_engine/basic_app.dart';
+import 'package:basic_engine/common/global.dart';
 import 'package:basic_engine/home/tabs/menu_center.dart';
 import 'package:basic_engine/home/tabs/news_center.dart';
 import 'package:basic_engine/home/tabs/news_detail.dart';
 import 'package:basic_engine/home/tabs/person_center.dart';
 import 'package:basic_engine/home/widgets/bottom_navy_bar.dart';
-import 'package:basic_engine/message/message_body.dart';
 import 'package:basic_engine/message/notifier.dart';
-import 'package:basic_engine/message/socket_client.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,10 +27,10 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _pageController = PageController();
-    _newsNum = app.global.unreadMessage.length;
+    _newsNum = app.global.ownUnreadMessage.length;
 
-    messageSubject.stream.listen((messageBody) {
-      if (mounted) this.setState(() => _newsNum = app.global.unreadMessage.length);
+    globalMessageSubject.stream.listen((values) {
+      if (mounted) this.setState(() => _newsNum = values.length);
     });
 
     notifierSubject.stream.listen((id) {
@@ -39,8 +38,7 @@ class _HomePageState extends State<HomePage> {
         detailIsOpen = true;
         this.setState(() => _currentIndex = 1);
         _pageController.jumpToPage(_currentIndex);
-        MessageBody messageBody = app.global.unreadMessage.singleWhere((item) => item.id == id);
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewsDetail(messageBody))).then((value) => detailIsOpen = false);
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewsDetail())).then((value) => detailIsOpen = false);
       }
     });
   }

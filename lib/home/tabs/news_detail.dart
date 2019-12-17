@@ -5,10 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NewsDetail extends StatefulWidget {
-  final MessageBody messageBody;
-
-  NewsDetail(this.messageBody);
-
   @override
   State<StatefulWidget> createState() => NewsDetailState();
 }
@@ -19,10 +15,9 @@ class NewsDetailState extends State<NewsDetail> {
   @override
   void initState() {
     super.initState();
-    _messageBody = widget.messageBody;
     notifierSubject.stream.listen((id) {
       if (mounted) {
-        MessageBody messageBody = app.global.unreadMessage.singleWhere((item) => item.id == id);
+        MessageBody messageBody = app.global.popUnreadMessage(id);
         this.setState(() => _messageBody = messageBody);
       }
     });
@@ -31,16 +26,18 @@ class NewsDetailState extends State<NewsDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('${_messageBody.id}')),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Text(_messageBody.title),
-            Divider(),
-            Text(_messageBody.content),
-          ],
-        ),
-      ),
+      appBar: AppBar(title: Text('消息详情')),
+      body: _messageBody != null
+          ? SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Text(_messageBody.title),
+                  Divider(),
+                  Text(_messageBody.content),
+                ],
+              ),
+            )
+          : Container(),
     );
   }
 

@@ -4,7 +4,10 @@ import 'package:basic_engine/message/message_body.dart';
 import 'package:basic_engine/message/socket_client.dart';
 import 'package:basic_engine/model/user_info.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+final BehaviorSubject<List<MessageBody>> globalMessageSubject = BehaviorSubject<List<MessageBody>>();
 
 class Global {
   static final String _tokenKey = '0';
@@ -26,8 +29,7 @@ class Global {
   Future init({@required String baseUrl, @required wsUrl}) async {
     _setBaseUrl(baseUrl);
     _setWsUrl(wsUrl);
-
-    messageSubject.stream.listen((messageBody) => setUnreadMessage(messageBody));
+    socketMessageSubject.stream.listen((messageBody) => pushUnreadMessage(messageBody));
   }
 
   void setToken(token) {
@@ -61,35 +63,42 @@ class Global {
     return UserInfo.fromMap(jsonDecode(userInfoStr));
   }
 
-  void setUnreadMessage(MessageBody messageBody) {
+  void pushUnreadMessage(MessageBody messageBody) {
     String avatar = this.userInfo.avatar;
-    Map<String, dynamic> unreadMessageMap;
-    String unreadMessageStr = _sp.get(_unreadMessageKey);
-    if (unreadMessageStr == null) {
-      unreadMessageMap = {};
-    } else {
-      unreadMessageMap = jsonDecode(unreadMessageStr);
-    }
-    List<dynamic> ownMessages = unreadMessageMap[avatar];
-    if (ownMessages == null) {
-      ownMessages = [];
-    }
+    Map<String, dynamic> allMessage = allUnreadMessage;
+
+    List<dynamic> ownMessages = allMessage[avatar];
+    if (ownMessages == null) ownMessages = [];
     ownMessages.add(jsonEncode(messageBody.toMap()));
-    unreadMessageMap[avatar] = ownMessages;
-    _sp.setString(_unreadMessageKey, jsonEncode(unreadMessageMap));
+    allMessage[avatar] = ownMessages;
+    _sp.setString(_unreadMessageKey, jsonEncode(allMessage));
+    globalMessageSubject.add(ownUnreadMessage);
   }
 
-  List<MessageBody> get unreadMessage {
+  MessageBody popUnreadMessage(String id) {
     String avatar = this.userInfo.avatar;
-    Map<String, dynamic> unreadMessageMap;
-    String unreadMessageStr = _sp.get(_unreadMessageKey);
-    if (unreadMessageStr != null) {
-      unreadMessageMap = jsonDecode(unreadMessageStr);
-      List messageList = unreadMessageMap[avatar];
-      return messageList != null && messageList.length > 0 ? MessageBody.allFromMap(messageList.map((item) => jsonDecode(item)).toList()) : [];
+    Map<String, dynamic> allMessage = allUnreadMessage;
+    List<dynamic> ownMessages = allMessage[avatar];
+    if (ownMessages != null) {
+      String popMessageStr = ownMessages.singleWhere((item) => jsonDecode(item)['id'] == id);
+      ownMessages.remove(popMessageStr);
+      _sp.setString(_unreadMessageKey, jsonEncode(allMessage));
+      globalMessageSubject.add(ownUnreadMessage);
+      return MessageBody.fromMap(jsonDecode(popMessageStr));
     } else {
-      return [];
+      return null;
     }
+  }
+
+  List<MessageBody> get ownUnreadMessage {
+    String avatar = this.userInfo.avatar;
+    List messageList = allUnreadMessage[avatar];
+    return messageList != null && messageList.length > 0 ? MessageBody.allFromMap(messageList.map((item) => jsonDecode(item)).toList()) : [];
+  }
+
+  Map<String, dynamic> get allUnreadMessage {
+    String unreadMessageStr = _sp.get(_unreadMessageKey);
+    return unreadMessageStr != null ? jsonDecode(unreadMessageStr) : {};
   }
 
   void _setBaseUrl(String baseUrl) {

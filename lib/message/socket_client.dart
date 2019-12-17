@@ -7,7 +7,7 @@ import 'package:basic_engine/message/message_body.dart';
 import 'package:basic_engine/model/user_info.dart';
 import 'package:rxdart/rxdart.dart';
 
-final BehaviorSubject<MessageBody> messageSubject = BehaviorSubject<MessageBody>();
+final BehaviorSubject<MessageBody> socketMessageSubject = BehaviorSubject<MessageBody>();
 
 class SocketClient {
   static SocketClient _socketClient = new SocketClient._();
@@ -32,7 +32,7 @@ class SocketClient {
       if (SYS_MESSAGE == messageBody.type) {
         CmdExecutor.execute(messageBody.cmd);
       } else {
-        messageSubject.add(messageBody);
+        socketMessageSubject.add(messageBody);
       }
     }
 

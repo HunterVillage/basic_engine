@@ -1,5 +1,5 @@
 import 'package:basic_engine/basic_app.dart';
-import 'package:basic_engine/message/socket_client.dart';
+import 'package:basic_engine/common/global.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,11 +14,9 @@ class NewsCenterState extends State<NewsCenter> {
   @override
   void initState() {
     super.initState();
-    _unReadMessages = app.global.unreadMessage;
-    messageSubject.stream.listen((messageBody) {
-      if (mounted) {
-        this.setState(() => _unReadMessages = app.global.unreadMessage);
-      }
+    _unReadMessages = app.global.ownUnreadMessage;
+    globalMessageSubject.stream.listen((values) {
+      if (mounted) this.setState(() => _unReadMessages = values);
     });
   }
 

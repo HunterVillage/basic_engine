@@ -27,7 +27,7 @@ class Notifier {
       }
     });
 
-    messageSubject.stream.listen((messageBody) => showBigTextNotification(messageBody));
+    socketMessageSubject.stream.listen((messageBody) => showBigTextNotification(messageBody));
   }
 
   Future<void> showBigTextNotification(MessageBody messageBody) async {
