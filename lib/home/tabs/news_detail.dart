@@ -5,22 +5,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NewsDetail extends StatefulWidget {
+  final String uuid;
+
+  NewsDetail(this.uuid);
+
   @override
   State<StatefulWidget> createState() => NewsDetailState();
 }
 
 class NewsDetailState extends State<NewsDetail> {
   MessageBody _messageBody;
-  String _messageId;
+  String _messageUuid;
 
   @override
   void initState() {
     super.initState();
-    notifierSubject.stream.listen((id) {
-      if (_messageId == null || _messageId != id) {
+    _messageUuid = widget.uuid;
+    MessageBody messageBody = app.global.popUnreadMessage(_messageUuid);
+    this.setState(() => _messageBody = messageBody);
+    notifierSubject.stream.listen((uuid) {
+      if (_messageUuid == null || _messageUuid != uuid) {
         if (mounted) {
-          _messageId = id;
-          MessageBody messageBody = app.global.popUnreadMessage(id);
+          _messageUuid = uuid;
+          MessageBody messageBody = app.global.popUnreadMessage(uuid);
           this.setState(() => _messageBody = messageBody);
         }
       }

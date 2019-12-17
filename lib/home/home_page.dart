@@ -33,12 +33,12 @@ class _HomePageState extends State<HomePage> {
       if (mounted) this.setState(() => _newsNum = values.length);
     });
 
-    notifierSubject.stream.listen((id) {
+    notifierSubject.stream.listen((uuid) {
       if (mounted && !detailIsOpen) {
         detailIsOpen = true;
         this.setState(() => _currentIndex = 1);
         _pageController.jumpToPage(_currentIndex);
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewsDetail())).then((value) => detailIsOpen = false);
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewsDetail(uuid))).then((value) => detailIsOpen = false);
       }
     });
   }

@@ -39,7 +39,7 @@ class LoginControl {
   }
 
   void logOut() {
-    app.global.setUserInfo(null);
+    app.global.clean();
     app.userInfo = null;
     app.socketClient.closeSocket();
     app.navigatorKey.currentState.pushNamedAndRemoveUntil('loginPage', (route) => route == null);

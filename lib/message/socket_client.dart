@@ -29,7 +29,7 @@ class SocketClient {
     void onData(dynamic content) {
       MessageBody messageBody = MessageBody.fromMap(jsonDecode(content));
 
-      if (SYS_MESSAGE == messageBody.type) {
+      if (SYSTEM_ACTION_MESSAGE == messageBody.type) {
         CmdExecutor.execute(messageBody.cmd);
       } else {
         socketMessageSubject.add(messageBody);

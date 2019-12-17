@@ -4,7 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/rxdart.dart';
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-final BehaviorSubject<String> notifierSubject = BehaviorSubject<String>();
+final PublishSubject<String> notifierSubject = PublishSubject<String>();
 
 class Notifier {
   static Notifier _instance = Notifier._();
@@ -49,6 +49,6 @@ class Notifier {
       styleInformation: bigTextStyleInformation,
     );
     var platformChannelSpecifics = NotificationDetails(androidPlatformChannelSpecifics, null);
-    await flutterLocalNotificationsPlugin.show(++_notificationId, title, content, platformChannelSpecifics, payload: messageBody.id);
+    await flutterLocalNotificationsPlugin.show(++_notificationId, title, content, platformChannelSpecifics, payload: messageBody.uuid);
   }
 }

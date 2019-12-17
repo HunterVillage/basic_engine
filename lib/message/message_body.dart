@@ -1,21 +1,21 @@
 const COMMON_MESSAGE = 'CommonMessage';
-const SYS_MESSAGE = 'SystemMessage';
+const SYSTEM_ACTION_MESSAGE = 'SystemActionMessage';
 
 class MessageBody {
   final String _type;
   final String _cmd;
-  final String _id;
+  final String _uuid;
+  final String _sender;
   final String _title;
   final String _content;
-  final dynamic _detail;
 
   MessageBody.fromMap(Map<String, dynamic> map)
       : this._type = map['type'],
         this._cmd = map['cmd'],
         this._title = map['title'],
-        this._id = map['id'],
-        this._content = map['content'],
-        this._detail = map['detail'];
+        this._uuid = map['uuid'],
+        this._sender = map['sender'],
+        this._content = map['content'];
 
   static List<MessageBody> allFromMap(List jsonList) {
     return jsonList.map((json) => MessageBody.fromMap(json)).toList();
@@ -24,21 +24,21 @@ class MessageBody {
   Map<String, dynamic> toMap() => <String, dynamic>{
         'type': this._type,
         'cmd': this._cmd,
-        'id': this._id,
+        'uuid': this._uuid,
+        'sender': this._sender,
         'title': this._title,
         'content': this._content,
-        'detail': this._detail,
       };
 
   String get type => this._type;
 
   String get cmd => _cmd;
 
-  dynamic get detail => _detail;
-
   String get content => _content;
 
   String get title => _title;
 
-  String get id => _id;
+  String get uuid => _uuid;
+
+  String get sender => _sender;
 }

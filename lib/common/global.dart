@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final BehaviorSubject<List<MessageBody>> globalMessageSubject = BehaviorSubject<List<MessageBody>>();
+final PublishSubject<List<MessageBody>> globalMessageSubject = PublishSubject<List<MessageBody>>();
 
 class Global {
   static final String _tokenKey = '0';
@@ -34,6 +34,12 @@ class Global {
 
   void setToken(token) {
     _sp.setString(_tokenKey, token);
+  }
+
+  void clean() {
+    _sp.setString(_tokenKey, null);
+    _sp.setString(_userInfoKey, null);
+    _sp.setString(_unreadMessageKey, null);
   }
 
   String get token {
@@ -75,12 +81,12 @@ class Global {
     globalMessageSubject.add(ownUnreadMessage);
   }
 
-  MessageBody popUnreadMessage(String id) {
+  MessageBody popUnreadMessage(String uuid) {
     String avatar = this.userInfo.avatar;
     Map<String, dynamic> allMessage = allUnreadMessage;
     List<dynamic> ownMessages = allMessage[avatar];
     if (ownMessages != null) {
-      String popMessageStr = ownMessages.singleWhere((item) => jsonDecode(item)['id'] == id);
+      String popMessageStr = ownMessages.singleWhere((item) => jsonDecode(item)['uuid'] == uuid);
       ownMessages.remove(popMessageStr);
       _sp.setString(_unreadMessageKey, jsonEncode(allMessage));
       globalMessageSubject.add(ownUnreadMessage);
