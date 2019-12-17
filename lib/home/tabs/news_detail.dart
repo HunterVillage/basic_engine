@@ -11,14 +11,17 @@ class NewsDetail extends StatefulWidget {
 
 class NewsDetailState extends State<NewsDetail> {
   MessageBody _messageBody;
+  String _messageId;
 
   @override
   void initState() {
     super.initState();
     notifierSubject.stream.listen((id) {
-      if (mounted) {
-        MessageBody messageBody = app.global.popUnreadMessage(id);
-        this.setState(() => _messageBody = messageBody);
+      if (_messageId == null || _messageId != id) {
+        if (mounted) {
+          MessageBody messageBody = app.global.popUnreadMessage(id);
+          this.setState(() => _messageBody = messageBody);
+        }
       }
     });
   }
