@@ -19,6 +19,7 @@ class NewsDetailState extends State<NewsDetail> {
     notifierSubject.stream.listen((id) {
       if (_messageId == null || _messageId != id) {
         if (mounted) {
+          _messageId = id;
           MessageBody messageBody = app.global.popUnreadMessage(id);
           this.setState(() => _messageBody = messageBody);
         }
