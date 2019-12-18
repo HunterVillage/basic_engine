@@ -21,17 +21,21 @@ class NewsDetailState extends State<NewsDetail> {
   void initState() {
     super.initState();
     _messageUuid = widget.uuid;
-    MessageBody messageBody = app.messageBox.popUnreadMessage(_messageUuid);
+    MessageBody messageBody = app.messageBox.allMessage().singleWhere((item) => item.uuid == _messageUuid);
     this.setState(() => _messageBody = messageBody);
-    notifierSubject.stream.listen((uuid) {
-      if (_messageUuid == null || _messageUuid != uuid) {
-        if (mounted) {
-          _messageUuid = uuid;
-          MessageBody messageBody = app.messageBox.popUnreadMessage(_messageUuid);
-          this.setState(() => _messageBody = messageBody);
+
+    if (messageBody.unread) {
+      app.messageBox.popUnreadMessage(_messageUuid);
+      this.setState(() => _messageBody = messageBody);
+      notifierSubject.stream.listen((uuid) {
+        if (_messageUuid == null || _messageUuid != uuid) {
+          if (mounted) {
+            _messageUuid = uuid;
+            app.messageBox.popUnreadMessage(_messageUuid);
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   @override

@@ -10,7 +10,8 @@ class MessageBody {
   final String _sender;
   final String _title;
   final String _content;
-  bool _unread;
+  final DateTime _sendTime;
+  bool _unread = true;
 
   MessageBody.fromMap(Map<String, dynamic> map)
       : this._type = map['type'],
@@ -19,6 +20,7 @@ class MessageBody {
         this._uuid = map['uuid'],
         this._sender = map['sender'],
         this._content = map['content'],
+        this._sendTime = DateTime.parse(map['sendTime']),
         this._unread = map['unread'];
 
   static List<MessageBody> allFromMap(List jsonList) {
@@ -36,11 +38,12 @@ class MessageBody {
         'sender': this._sender,
         'title': this._title,
         'content': this._content,
+        'sendTime': this._sendTime,
         'unread': this._unread,
       };
 
   Future<void> read() async {
-    this._unread = true;
+    this._unread = false;
     await DioClient().get('/message/read', params: {'uuid': _uuid});
   }
 
@@ -57,4 +60,6 @@ class MessageBody {
   String get sender => _sender;
 
   bool get unread => _unread;
+
+  DateTime get sendTime => _sendTime;
 }

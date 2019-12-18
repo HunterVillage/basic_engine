@@ -27,13 +27,15 @@ class MessageBox {
     if (responseBody.success) {
       List<MessageBody> allMessageList = MessageBody.allFromMap(responseBody.data);
       _unreadMessageList = allMessageList.where((item) => item.unread).toList();
+      _unreadMessageList.sort((v1, v2) => v2.sendTime.compareTo(v1.sendTime));
       _alreadyReadMessageList = allMessageList.where((item) => !item.unread).toList();
+      _alreadyReadMessageList.sort((v1, v2) => v2.sendTime.compareTo(v1.sendTime));
       messageBoxSubject.add(allMessage());
     }
   }
 
   void pushUnreadMessage(MessageBody messageBody) {
-    _unreadMessageList.add(messageBody);
+    _unreadMessageList.insert(0, messageBody);
     messageBoxSubject.add(allMessage());
   }
 
@@ -47,7 +49,7 @@ class MessageBox {
   }
 
   void pushAlreadyReadMessage(MessageBody messageBody) {
-    _alreadyReadMessageList.add(messageBody);
+    _alreadyReadMessageList.insert(0, messageBody);
   }
 
   void clear() {
