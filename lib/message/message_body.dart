@@ -8,6 +8,7 @@ class MessageBody {
   final String _cmd;
   final String _uuid;
   final String _sender;
+  final String _senderName;
   final String _title;
   final String _content;
   final DateTime _sendTime;
@@ -19,6 +20,7 @@ class MessageBody {
         this._title = map['title'],
         this._uuid = map['uuid'],
         this._sender = map['sender'],
+        this._senderName = map['senderName'],
         this._content = map['content'],
         this._sendTime = DateTime.parse(map['sendTime']),
         this._unread = map['unread'];
@@ -36,6 +38,7 @@ class MessageBody {
         'cmd': this._cmd,
         'uuid': this._uuid,
         'sender': this._sender,
+        'senderName': this._senderName,
         'title': this._title,
         'content': this._content,
         'sendTime': this._sendTime,
@@ -58,6 +61,8 @@ class MessageBody {
   String get uuid => _uuid;
 
   String get sender => _sender;
+
+  String get senderName => _senderName;
 
   bool get unread => _unread;
 

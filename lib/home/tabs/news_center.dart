@@ -38,14 +38,18 @@ class NewsCenterState extends State<NewsCenter> {
         Padding(
           padding: EdgeInsets.only(top: 10, bottom: 5),
           child: RefreshIndicator(
-            onRefresh: ()=>app.messageBox.loadMessage(context),
+            onRefresh: () => app.messageBox.loadMessage(context),
             child: ListView.separated(
                 controller: _controller,
                 itemCount: _allMessage.length,
                 separatorBuilder: (BuildContext context, int index) => new Divider(),
                 itemBuilder: (context, index) {
                   MessageBody messageBody = _allMessage[index];
-                  return MessageItem(messageBody);
+                  return GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NewsDetail(messageBody.uuid))),
+                    child: MessageItem(messageBody),
+                  );
                 }),
           ),
         ),
@@ -80,54 +84,51 @@ class MessageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NewsDetail(messageBody.uuid))),
-      child: Stack(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 10, left: 20),
-            child: SizedBox(
-              height: 60,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(messageBody.sender ?? '', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold), maxLines: 1),
-                      Text('${messageBody.sendTime.month}/${messageBody.sendTime.day} ${messageBody.sendTime.hour}:${messageBody.sendTime.minute}',
-                          style: TextStyle(fontSize: 13, color: Colors.black45), maxLines: 1),
-                    ],
-                  ),
-                  Text(messageBody.title ?? '', style: TextStyle(fontSize: 14), maxLines: 1),
-                  Text(
-                    messageBody.content ?? '',
-                    style: TextStyle(fontSize: 14, color: Colors.black45),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
+    return Stack(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(right: 10, left: 20),
+          child: SizedBox(
+            height: 65,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(messageBody.senderName ?? '', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold), maxLines: 1),
+                    Text('${messageBody.sendTime.month}/${messageBody.sendTime.day} ${messageBody.sendTime.hour}:${messageBody.sendTime.minute}',
+                        style: TextStyle(fontSize: 13, color: Colors.black45), maxLines: 1),
+                  ],
+                ),
+                Text(messageBody.title ?? '', style: TextStyle(fontSize: 14), maxLines: 1),
+                Text(
+                  messageBody.content ?? '',
+                  style: TextStyle(fontSize: 14, color: Colors.black45),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
           ),
-          Positioned(
-            top: 6,
-            left: 5,
-            child: Opacity(
-              child: Container(
-                height: 7,
-                width: 7,
-                decoration: BoxDecoration(
-                  color: Colors.lightBlue,
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
+        ),
+        Positioned(
+          top: 6,
+          left: 5,
+          child: Opacity(
+            child: Container(
+              height: 7,
+              width: 7,
+              decoration: BoxDecoration(
+                color: Colors.lightBlue,
+                borderRadius: BorderRadius.circular(10.0),
               ),
-              opacity: messageBody.unread ? 1 : 0,
             ),
-          )
-        ],
-      ),
+            opacity: messageBody.unread ? 1 : 0,
+          ),
+        )
+      ],
     );
   }
 }
