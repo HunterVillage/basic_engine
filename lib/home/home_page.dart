@@ -1,8 +1,8 @@
 import 'package:basic_engine/basic_app.dart';
 import 'package:basic_engine/common/message_box.dart';
-import 'package:basic_engine/home/tabs/menu_center.dart';
-import 'package:basic_engine/home/tabs/news_center.dart';
-import 'package:basic_engine/home/tabs/news_detail.dart';
+import 'package:basic_engine/home/tabs/menu_tab/menu_center.dart';
+import 'package:basic_engine/home/tabs/news_tab/news_center.dart';
+import 'package:basic_engine/home/tabs/news_tab/news_detail.dart';
 import 'package:basic_engine/home/tabs/person_center.dart';
 import 'package:basic_engine/home/widgets/bottom_navy_bar.dart';
 import 'package:basic_engine/message/notifier.dart';
@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(title: Text(widget.title)),
+
       body: SizedBox.expand(
         child: PageView(
           controller: _pageController,
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
             setState(() => _currentIndex = index);
           },
           children: <Widget>[
-            MenuCenter(),
+            MenuCenter(widget.title),
             NewsCenter(),
             PersonCenter(),
           ],

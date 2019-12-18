@@ -21,7 +21,7 @@ class BundleBoss {
     if (_userInfo != null) {
       List bundleIds = _userInfo.bundleIds;
       _pool.entries.forEach((entry) {
-        List<Bundle> bundles = entry.value.values.where((bundle) => bundleIds.contains(bundle.id)).toList();
+        List<Bundle> bundles = entry.value.values.where((bundle) => inProduction ? bundleIds.contains(bundle.id) : true).toList();
         bundles.sort((bundle1, bundle2) => bundle1.sort > bundle2.sort ? 1 : -1);
         if (bundles.length > 0) groupingBundles.putIfAbsent(entry.key, () => bundles);
       });

@@ -7,6 +7,8 @@ import 'package:basic_engine/message/socket_client.dart';
 import 'package:basic_engine/model/user_info.dart';
 import 'package:flutter/material.dart';
 
+const bool inProduction = const bool.fromEnvironment("dart.vm.product");
+
 class App {
   static App _instance;
 
