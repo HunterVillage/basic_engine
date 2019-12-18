@@ -27,6 +27,7 @@ dependencies:
   dio: ^3.0.5
   flutter_local_notifications: ^0.8.4+3
   rxdart: ^0.22.6
+  vibrate: ^0.0.4
 
 dev_dependencies:
   flutter_test:

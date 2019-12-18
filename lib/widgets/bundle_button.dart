@@ -11,6 +11,7 @@ class BundleButton extends StatelessWidget {
     @required this.icon,
     this.backColor = Colors.white,
     @required this.onTap,
+    this.onLongPress,
   });
 
   final double width;
@@ -20,6 +21,7 @@ class BundleButton extends StatelessWidget {
   final Widget icon;
   final Color backColor;
   final OnTap onTap;
+  final OnTap onLongPress;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class BundleButton extends StatelessWidget {
       height: height,
       child: InkWell(
         onTap: onTap,
+        onLongPress: onLongPress,
         child: Card(
           child: Column(
             children: <Widget>[

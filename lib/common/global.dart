@@ -2,13 +2,17 @@ import 'dart:convert';
 
 import 'package:basic_engine/model/user_info.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+final PublishSubject<List<String>> shortcutSubject = PublishSubject<List<String>>();
 
 class Global {
   static final String _tokenKey = '0';
   static final String _userInfoKey = '1';
   static final String _baseUrlKey = '2';
   static final String _wsUrlKey = '3';
+  static final String _shortcutKey = '4';
 
   static final Global _instance = Global._();
   static SharedPreferences _sp;
@@ -67,5 +71,23 @@ class Global {
 
   void _setWsUrl(String wsUrl) {
     _sp.setString(_wsUrlKey, wsUrl);
+  }
+
+  List<String> get shortcutBundleIds {
+    return _sp.getStringList(_shortcutKey) ?? [];
+  }
+
+  void operateShortcut(String bundleId) {
+    List<String> bundleIdList = _sp.getStringList(_shortcutKey);
+    if (bundleIdList == null) {
+      bundleIdList = [];
+    }
+    if (!bundleIdList.contains(bundleId)) {
+      bundleIdList.add(bundleId);
+    } else {
+      bundleIdList.remove(bundleId);
+    }
+    _sp.setStringList(_shortcutKey, bundleIdList);
+    shortcutSubject.add(shortcutBundleIds);
   }
 }
