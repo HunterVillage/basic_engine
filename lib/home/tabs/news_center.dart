@@ -11,7 +11,9 @@ class NewsCenter extends StatefulWidget {
 }
 
 class NewsCenterState extends State<NewsCenter> {
+  ScrollController _controller = new ScrollController();
   List<dynamic> _allMessage = [];
+  bool showToTopBtn = false;
 
   @override
   void initState() {
@@ -20,19 +22,50 @@ class NewsCenterState extends State<NewsCenter> {
     messageBoxSubject.stream.listen((values) {
       if (mounted) this.setState(() => _allMessage = values);
     });
+    _controller.addListener(() {
+      if (_controller.offset < 500 && showToTopBtn) {
+        setState(() => showToTopBtn = false);
+      } else if (_controller.offset >= 500 && showToTopBtn == false) {
+        setState(() => showToTopBtn = true);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 10, bottom: 5),
-      child: ListView.separated(
-          itemCount: _allMessage.length,
-          separatorBuilder: (BuildContext context, int index) => new Divider(),
-          itemBuilder: (context, index) {
-            MessageBody messageBody = _allMessage[index];
-            return MessageItem(messageBody);
-          }),
+    return Stack(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 10, bottom: 5),
+          child: ListView.separated(
+              controller: _controller,
+              itemCount: _allMessage.length,
+              separatorBuilder: (BuildContext context, int index) => new Divider(),
+              itemBuilder: (context, index) {
+                MessageBody messageBody = _allMessage[index];
+                return MessageItem(messageBody);
+              }),
+        ),
+        Positioned(
+          bottom: 20,
+          right: 12,
+          child: !showToTopBtn
+              ? Container()
+              : GestureDetector(
+                  child: Opacity(
+                    opacity: 0.8,
+                    child: Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), color: Colors.white),
+                      child: Icon(Icons.keyboard_arrow_up, color: Colors.black, size: 39),
+                    ),
+                  ),
+                  onTap: () {
+                    _controller.animateTo(.0, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  },
+                ),
+        )
+      ],
     );
   }
 }
