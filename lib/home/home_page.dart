@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    app.messageBox.init(context);
+    app.messageBox.loadMessage(context);
     _pageController = PageController();
     _newsNum = app.messageBox.unreadMessage().length;
     messageBoxSubject.stream.listen((values) {

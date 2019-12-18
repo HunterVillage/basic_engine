@@ -37,14 +37,17 @@ class NewsCenterState extends State<NewsCenter> {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(top: 10, bottom: 5),
-          child: ListView.separated(
-              controller: _controller,
-              itemCount: _allMessage.length,
-              separatorBuilder: (BuildContext context, int index) => new Divider(),
-              itemBuilder: (context, index) {
-                MessageBody messageBody = _allMessage[index];
-                return MessageItem(messageBody);
-              }),
+          child: RefreshIndicator(
+            onRefresh: ()=>app.messageBox.loadMessage(context),
+            child: ListView.separated(
+                controller: _controller,
+                itemCount: _allMessage.length,
+                separatorBuilder: (BuildContext context, int index) => new Divider(),
+                itemBuilder: (context, index) {
+                  MessageBody messageBody = _allMessage[index];
+                  return MessageItem(messageBody);
+                }),
+          ),
         ),
         Positioned(
           bottom: 20,

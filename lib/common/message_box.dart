@@ -22,7 +22,7 @@ class MessageBox {
     return _instance;
   }
 
-  Future<void> init(context) async {
+  Future<void> loadMessage(context) async {
     ResponseBody responseBody = await DioClient().get('/message/list_own_message');
     if (responseBody.success) {
       List<MessageBody> allMessageList = MessageBody.allFromMap(responseBody.data);
