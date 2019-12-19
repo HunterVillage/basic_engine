@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'bundle/bundle.dart';
+import '../bundle/bundle.dart';
 
 class BundleDemo1 extends StatelessBundle {
   @override

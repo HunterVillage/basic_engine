@@ -1,5 +1,7 @@
 import 'package:basic_engine/bundle/bundle.dart';
 import 'package:basic_engine/bundle/bundle_boss.dart';
+import 'package:basic_engine/bundle/piano.dart';
+import 'package:basic_engine/bundle/piano_boss.dart';
 import 'package:basic_engine/common/global.dart';
 import 'package:basic_engine/common/message_box.dart';
 import 'package:basic_engine/message/notifier.dart';
@@ -44,6 +46,10 @@ class App {
 
   void installBundles(String groupName, List<Bundle> bundles) {
     bundles.forEach((bundle) => BundleBoss.register(groupName, bundle));
+  }
+
+  void installPianos(String groupName, List<Piano> pianos) {
+    pianos.forEach((piano) => PianoBoss.register(groupName, piano));
   }
 
   Global get global => _global;

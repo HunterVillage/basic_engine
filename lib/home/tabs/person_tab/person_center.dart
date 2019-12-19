@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:basic_engine/app.dart';
+import 'package:basic_engine/bundle/piano_boss.dart';
 import 'package:basic_engine/common/login_control.dart';
 import 'package:basic_engine/constant/icon_constant.dart';
 import 'package:basic_engine/home/tabs/person_tab/person_bar.dart';
@@ -35,29 +36,8 @@ class PersonCenterState extends State<PersonCenter> {
               child: Column(
                 children: <Widget>[
                   _buildUserCard(),
-                  Container(
-                    child: ListTile(
-                      leading: Icon(MyIcons.lock, color: Colors.green[400]),
-                      title: Text('修改密码', style: TextStyle(color: Colors.black54)),
-                      trailing: Icon(Icons.chevron_right),
-                    ),
-                    color: Colors.white,
-                  ),
-                  Container(
-                    child: ListTile(
-                      leading: Icon(MyIcons.setting, color: Colors.deepOrangeAccent[200]),
-                      title: Text('设        置', style: TextStyle(color: Colors.black54)),
-                      trailing: Icon(Icons.chevron_right),
-                    ),
-                    color: Colors.white,
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                      child: ListTile(
-                        title: Center(child: Text('注销登录', style: TextStyle(fontFamily: 'shouji', color: Colors.black54, fontSize: 18))),
-                        onTap: () => LoginControl.getInstance().logOut(),
-                      ),
-                      color: Colors.white),
+                  Column(children: PianoBoss.groupingMenus(context)),
+                  _buildAuthButtons(),
                 ],
               ),
             ),
@@ -130,6 +110,28 @@ class PersonCenterState extends State<PersonCenter> {
           BoxShadow(blurRadius: 1.0, color: Colors.grey[400]),
         ],
       ),
+    );
+  }
+
+  Column _buildAuthButtons() {
+    return Column(
+      children: <Widget>[
+        Container(
+          child: ListTile(
+            leading: Icon(MyIcons.lock, color: Colors.green[400]),
+            title: Text('修改密码', style: TextStyle(color: Colors.black54)),
+            trailing: Icon(Icons.chevron_right),
+          ),
+          color: Colors.white,
+        ),
+        Divider(height: 1),
+        Container(
+            child: ListTile(
+              title: Center(child: Text('注销登录', style: TextStyle(fontFamily: 'shouji', color: Colors.black54, fontSize: 18))),
+              onTap: () => LoginControl.getInstance().logOut(),
+            ),
+            color: Colors.white),
+      ],
     );
   }
 }
