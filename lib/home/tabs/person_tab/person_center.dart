@@ -31,13 +31,14 @@ class PersonCenterState extends State<PersonCenter> {
         PersonBar(height: 180),
         Positioned.fill(
           child: Padding(
-            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 50, bottom: 5),
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 50),
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
                   _buildUserCard(),
                   Column(children: PianoBoss.groupingMenus(context)),
                   _buildAuthButtons(),
+                  SizedBox(height: 30),
                 ],
               ),
             ),

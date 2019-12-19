@@ -16,7 +16,7 @@ class PianoCard extends StatelessPiano {
   }
 
   @override
-  Widget get leading => Icon(MyIcons.setting, color: Colors.teal[200]);
+  Widget get leading => Icon(MyIcons.folder, color: Colors.teal[200]);
 
   @override
   String get id => 'card';

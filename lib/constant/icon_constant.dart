@@ -11,5 +11,6 @@ class MyIcons {
   static IconData roundCheck = IconData(0xe646, fontFamily: 'myicons');
   static IconData favor = IconData(0xe619, fontFamily: 'myicons');
   static IconData picture = IconData(0xe695, fontFamily: 'myicons');
+  static IconData folder = IconData(0xe61f, fontFamily: 'myicons');
   static IconData emoji = IconData(0xe616, fontFamily: 'myicons');
 }
