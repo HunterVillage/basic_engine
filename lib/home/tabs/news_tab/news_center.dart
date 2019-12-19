@@ -1,5 +1,6 @@
 import 'package:basic_engine/basic_app.dart';
 import 'package:basic_engine/common/message_box.dart';
+import 'package:basic_engine/constant/icon_constant.dart';
 import 'package:basic_engine/home/tabs/news_tab/news_bar.dart';
 import 'package:basic_engine/home/tabs/news_tab/news_detail.dart';
 import 'package:basic_engine/home/tabs/news_tab/news_item.dart';
@@ -68,9 +69,9 @@ class NewsCenterState extends State<NewsCenter> {
                     child: Opacity(
                       opacity: 0.8,
                       child: Container(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(9),
                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), color: Colors.white),
-                        child: Icon(Icons.keyboard_arrow_up, color: Colors.black, size: 39),
+                        child: Icon(MyIcons.toTop, color: Colors.black, size: 32),
                       ),
                     ),
                     onTap: () {

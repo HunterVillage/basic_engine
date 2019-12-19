@@ -73,6 +73,9 @@ flutter:
       fonts:
         - asset: assets/fonts/FangZhengPinShang.TTF
           weight: 500
+    - family: myicons
+      fonts:
+        - asset: assets/icons/my_icon.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

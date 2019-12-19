@@ -61,8 +61,11 @@ class BundleBoss {
   }
 
   static List<Widget> shortcutMenus(BuildContext context) {
-    List<Bundle> shortcutBundles = allBundles.entries.where((entry) => app.global.shortcutBundleIds.contains(entry.key)).map((entry) => entry.value).toList();
-    return _buildBundleWidget(shortcutBundles, context);
+    List<Bundle> _shortcutBundles = allBundles.entries.where((entry) => app.global.shortcutBundleIds.contains(entry.key)).map((entry) => entry.value).toList();
+    List<Widget> _shortcutMenus = _buildBundleWidget(_shortcutBundles, context);
+    return _shortcutMenus.length <= 0
+        ? [Text('暂未加入快捷菜单', style: TextStyle(color: Colors.white, fontSize: 13))]
+        : _shortcutMenus;
   }
 
   static List<Widget> _buildBundleWidget(List<Bundle> bundles, BuildContext context) {

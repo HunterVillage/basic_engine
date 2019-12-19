@@ -3,7 +3,7 @@ import 'package:basic_engine/common/message_box.dart';
 import 'package:basic_engine/home/tabs/menu_tab/menu_center.dart';
 import 'package:basic_engine/home/tabs/news_tab/news_center.dart';
 import 'package:basic_engine/home/tabs/news_tab/news_detail.dart';
-import 'package:basic_engine/home/tabs/person_center.dart';
+import 'package:basic_engine/home/tabs/person_tab/person_center.dart';
 import 'package:basic_engine/home/widgets/bottom_navy_bar.dart';
 import 'package:basic_engine/message/notifier.dart';
 import 'package:flutter/material.dart';

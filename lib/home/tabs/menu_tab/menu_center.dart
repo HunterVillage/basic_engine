@@ -43,7 +43,7 @@ class MenuCenterState extends State<MenuCenter> with SingleTickerProviderStateMi
               padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, bottom: 5),
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.only(top: 50.0),
+                  padding: EdgeInsets.only(top: 50.0, bottom: 27),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -65,17 +65,26 @@ class MenuCenterState extends State<MenuCenter> with SingleTickerProviderStateMi
       right: _animation.value,
       bottom: 0,
       top: MediaQuery.of(context).padding.top,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        width: 130,
-        decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(5)), color: Colors.black38),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: BundleBoss.shortcutMenus(context),
-          ),
-        ),
-      ),
+      child: GestureDetector(
+          onHorizontalDragEnd: (v) {
+            if (this._shortcutOpen && v.velocity.pixelsPerSecond.dx > 0) {
+              _controller.reverse();
+              this.setState(() => _shortcutOpen = false);
+            }
+          },
+          child: Container(
+            padding: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 50),
+            width: 130,
+            decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(5)), color: Colors.black38),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              reverse: true,
+              child: Column(
+                children: BundleBoss.shortcutMenus(context),
+              ),
+
+            ),
+          )),
     );
   }
 
@@ -85,12 +94,12 @@ class MenuCenterState extends State<MenuCenter> with SingleTickerProviderStateMi
       right: 0,
       child: GestureDetector(
         child: Opacity(
-          opacity: 0.7,
+          opacity: 0.5,
           child: Container(
-            padding: EdgeInsets.all(5),
+            padding: EdgeInsets.all(9),
             decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(10)), color: Colors.black38),
             child: AnimatedIcon(
-              icon: AnimatedIcons.menu_close,
+              icon: AnimatedIcons.list_view,
               progress: _controller,
               color: Colors.white,
             ),
