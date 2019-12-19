@@ -30,6 +30,6 @@ Future<void> main() async {
   app.installBundles('Bundle Group C', [BundleDemo1(), BundleDemo2(), BundleDemo3()]);
   app.installPianos('Piano Group A', [PianoPay()]);
   app.installPianos('Piano Group B', [PianoCollect(), PianoAlbum(), PianoCard(), PianoExpression()]);
-  app.installPianos('Piano Group B', [PianoSetting()]);
+  app.installPianos('Piano Group C', [PianoSetting()]);
   runApp(BasicApp(homeTitle: HOME_TITLE));
 }
