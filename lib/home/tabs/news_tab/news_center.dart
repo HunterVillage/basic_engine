@@ -39,7 +39,7 @@ class NewsCenterState extends State<NewsCenter> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          NewsBar(height: 75),
+          NewsBar(height: 75, title: '消  息'),
           Positioned.fill(
             child: Padding(
               padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 50.0, bottom: 5),

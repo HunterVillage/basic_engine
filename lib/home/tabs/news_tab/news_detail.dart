@@ -1,4 +1,5 @@
 import 'package:basic_engine/basic_app.dart';
+import 'package:basic_engine/home/tabs/news_tab/news_bar.dart';
 import 'package:basic_engine/message/message_body.dart';
 import 'package:basic_engine/message/notifier.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,18 +42,35 @@ class NewsDetailState extends State<NewsDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('消息详情')),
-      body: _messageBody != null
-          ? SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Text(_messageBody.title),
-                  Divider(),
-                  Text(_messageBody.content),
-                ],
-              ),
-            )
-          : Container(),
+      body: Stack(
+        children: <Widget>[
+          NewsBar(height: 75, title: '来自${_messageBody.senderName}的消息'),
+          Positioned.fill(
+            child: Padding(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 50.0 + 10, bottom: 5, left: 15, right: 15),
+              child: _messageBody != null
+                  ? SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            _messageBody.title,
+                            style: TextStyle(fontSize: 19, color: Colors.black, height: 1.5),
+                          ),
+                          Text(
+                            '${_messageBody.sendTime.year}年${_messageBody.sendTime.month}月${_messageBody.sendTime.day}日 ${_messageBody.sendTime.hour}:${_messageBody.sendTime.minute}',
+                            style: TextStyle(fontSize: 15, color: Colors.black54),
+                          ),
+                          Divider(height: 27),
+                          Text(_messageBody.content, style: TextStyle(fontSize: 15, color: Colors.grey[700], height: 1.7)),
+                        ],
+                      ),
+                    )
+                  : Container(),
+            ),
+          )
+        ],
+      ),
     );
   }
 

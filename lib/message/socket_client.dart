@@ -48,6 +48,7 @@ class SocketClient {
       },
     );
     _isOpen = true;
+    print("Websocke has been connected.");
     return _isOpen;
   }
 

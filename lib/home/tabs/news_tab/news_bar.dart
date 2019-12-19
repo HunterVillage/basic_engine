@@ -3,9 +3,10 @@
 import 'package:flutter/material.dart';
 
 class NewsBar extends StatelessWidget {
+  final String title;
   final double height;
 
-  const NewsBar({Key key, this.height}) : super(key: key);
+  const NewsBar({Key key, @required this.title, @required this.height}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,13 @@ class NewsBar extends StatelessWidget {
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           centerTitle: true,
-          title: Text("消  息", style: TextStyle(fontFamily: 'pinshang', fontWeight: FontWeight.bold, color: Colors.black)),
+          leading: Navigator.canPop(context)
+              ? GestureDetector(
+                  child: Icon(Icons.arrow_back, color: Colors.black54),
+                  onTap: () => Navigator.of(context).pop(),
+                )
+              : Container(),
+          title: Text(title, style: TextStyle(fontFamily: 'pinshang', fontWeight: FontWeight.bold, color: Colors.black54)),
         ),
       ],
     );
