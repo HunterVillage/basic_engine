@@ -13,4 +13,10 @@ class MyIcons {
   static IconData picture = IconData(0xe695, fontFamily: 'myicons');
   static IconData folder = IconData(0xe61f, fontFamily: 'myicons');
   static IconData emoji = IconData(0xe616, fontFamily: 'myicons');
+  static IconData browser = IconData(0xe606, fontFamily: 'myicons');
+
+  static IconData rest = IconData(0xe641, fontFamily: 'myicons');
+  static IconData deliver = IconData(0xe611, fontFamily: 'myicons');
+  static IconData service = IconData(0xe649, fontFamily: 'myicons');
+  static IconData shopping = IconData(0xe64b, fontFamily: 'myicons');
 }

@@ -44,7 +44,7 @@ class PianoBoss {
       return Container(
         child: GestureDetector(
           child: ListTile(
-            leading: piano.leading,
+            leading: Hero(tag: piano.id, child: piano.leading),
             title: Text(piano.cnName, style: TextStyle(color: Colors.black54)),
             trailing: Icon(Icons.chevron_right),
           ),

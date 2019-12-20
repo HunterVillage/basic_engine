@@ -62,14 +62,14 @@ class BundleBoss {
 
   static List<Widget> shortcutMenus(BuildContext context) {
     List<Bundle> _shortcutBundles = allBundles.entries.where((entry) => app.global.shortcutBundleIds.contains(entry.key)).map((entry) => entry.value).toList();
-    List<Widget> _shortcutMenus = _buildBundleWidget(_shortcutBundles, context);
-    return _shortcutMenus.length <= 0
-        ? [Text('暂未加入快捷菜单', style: TextStyle(color: Colors.white, fontSize: 13))]
-        : _shortcutMenus;
+    List<Widget> _shortcutMenus = _buildBundleWidget(_shortcutBundles, context, shortcut: true);
+    return _shortcutMenus.length <= 0 ? [Text('暂未加入快捷菜单', style: TextStyle(color: Colors.white, fontSize: 13))] : _shortcutMenus;
   }
 
-  static List<Widget> _buildBundleWidget(List<Bundle> bundles, BuildContext context) {
+  static List<Widget> _buildBundleWidget(List<Bundle> bundles, BuildContext context, {bool shortcut = false}) {
+    Widget icon;
     return bundles.map((bundle) {
+      icon = !shortcut && bundle.key != null ? Hero(tag: bundle.key, child: bundle.icon) : bundle.icon;
       double width = MediaQuery.of(context).size.width / 3 - 8;
       return Padding(
         padding: EdgeInsets.symmetric(vertical: 3),
@@ -80,7 +80,7 @@ class BundleBoss {
             padding: EdgeInsets.only(bottom: 5),
             child: Text(bundle.cnName, style: TextStyle(fontSize: 14.0, fontFamily: 'pinshang', color: Theme.of(context).primaryColorLight)),
           ),
-          icon: Padding(padding: EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 2), child: bundle.icon),
+          icon: Padding(padding: EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 2), child: icon),
           onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => bundle)),
           onLongPress: () {
             app.global.operateShortcut(bundle.id);

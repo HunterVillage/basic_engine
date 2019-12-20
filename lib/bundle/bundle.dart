@@ -11,7 +11,9 @@ abstract class Bundle extends Widget {
 }
 
 abstract class StatelessBundle extends StatelessWidget implements Bundle {
+  const StatelessBundle({ Key key }) : super(key: key);
 }
 
 abstract class StatefulBundle extends StatefulWidget implements Bundle {
+  const StatefulBundle({ Key key }) : super(key: key);
 }
