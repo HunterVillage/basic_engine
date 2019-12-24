@@ -15,13 +15,11 @@ class PersonCenter extends StatefulWidget {
 
 class PersonCenterState extends State<PersonCenter> {
   UserInfo _userInfo;
-  String _subName;
 
   @override
   void initState() {
     super.initState();
     this._userInfo = App.getInstance().userInfo;
-    _subName = _userInfo.name.substring(_userInfo.name.length - 2, _userInfo.name.length);
   }
 
   @override
@@ -63,10 +61,11 @@ class PersonCenterState extends State<PersonCenter> {
                 height: 70,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.file(
-                    File('/sdcard/headPhoto.jpeg'),
-                    fit: BoxFit.cover,
-                  ),
+//                  child: Image.file(
+//                    File('/sdcard/headPhoto.jpeg'),
+//                    fit: BoxFit.cover,
+//                  ),
+                child: Image.network('https://semantic-ui.com/images/avatar2/large/matthew.png'),
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(20)),
