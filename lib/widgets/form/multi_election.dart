@@ -1,20 +1,20 @@
 import 'package:basic_engine/widgets/form/constant/style_constant.dart';
 import 'package:flutter/material.dart';
 
-class SingleElection extends StatefulWidget {
+class MultiElection extends StatefulWidget {
   final Widget leading;
   final String label;
-  final List<SingleElectionItem> list;
+  final List<MultiElectionItem> list;
   final OnPressedFunction onPressed;
   final MaterialColor color;
   final MaterialColor selectedColor;
-  final dynamic value;
+  final List value;
   final bool disabled;
 
   @override
-  State<StatefulWidget> createState() => new SingleElectionState();
+  State<StatefulWidget> createState() => MultiElectionState();
 
-  SingleElection.build({
+  MultiElection.build({
     Key key,
     this.leading,
     @required this.label,
@@ -27,7 +27,7 @@ class SingleElection extends StatefulWidget {
   }) : super(key: key);
 }
 
-class SingleElectionState extends State<SingleElection> {
+class MultiElectionState extends State<MultiElection> {
   MaterialColor _selectedColor;
   MaterialColor _unSelectedColor;
 
@@ -88,7 +88,7 @@ class SingleElectionState extends State<SingleElection> {
             children: List<Widget>.generate(
               widget.list.length,
               (index) {
-                bool selected = widget.list[index].value == widget.value;
+                bool selected = widget.value.contains(widget.list[index].value);
                 return Container(
                   height: 30,
                   margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
@@ -110,21 +110,21 @@ class SingleElectionState extends State<SingleElection> {
   }
 }
 
-class SingleElectionItem {
+class MultiElectionItem {
   String label;
   dynamic value;
   dynamic sourceBody;
 
-  SingleElectionItem(this.label, this.value);
+  MultiElectionItem(this.label, this.value);
 
-  SingleElectionItem.fromJson(Map<String, dynamic> json, {labelName, valueName})
+  MultiElectionItem.fromJson(Map<String, dynamic> json, {labelName, valueName})
       : label = json[labelName ?? 'label'] ?? '',
         value = json[valueName ?? 'value'] ?? '',
         sourceBody = json;
 
-  static List<SingleElectionItem> allFromJson(List jsonList, {labelName, valueName}) {
-    return jsonList != null ? jsonList.map((json) => SingleElectionItem.fromJson(json, labelName: labelName, valueName: valueName)).toList() : [];
+  static List<MultiElectionItem> allFromJson(List jsonList, {labelName, valueName}) {
+    return jsonList != null ? jsonList.map((json) => MultiElectionItem.fromJson(json, labelName: labelName, valueName: valueName)).toList() : [];
   }
 }
 
-typedef void OnPressedFunction(SingleElectionItem item);
+typedef void OnPressedFunction(MultiElectionItem item);
