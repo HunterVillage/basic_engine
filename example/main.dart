@@ -14,7 +14,7 @@ import 'piano_earth.dart';
 import 'piano_expression.dart';
 import 'piano_setting.dart';
 
-const BASE_URL = 'http://172.16.5.106:8090/ares/';
+const BASE_URL = 'http://172.16.5.106:8090/basic/';
 const WS_URL = 'ws://172.16.5.106:8091';
 
 const LOGO_PATH = "assets/images/logo.png";
