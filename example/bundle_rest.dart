@@ -1,8 +1,8 @@
 import 'package:basic_engine/constant/icon_constant.dart';
-import 'package:basic_engine/demo/piano_earth.dart';
 import 'package:flutter/material.dart';
+import 'package:basic_engine/bundle/bundle.dart';
 
-import '../bundle/bundle.dart';
+import 'piano_earth.dart';
 
 class BundleRest extends StatelessBundle {
   @override
