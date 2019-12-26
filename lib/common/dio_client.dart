@@ -58,7 +58,7 @@ class DioClient<T> {
       if (responseBody.token != null) {
         _global.setToken(responseBody.token);
       }
-      if (responseBody.resend) {
+      if (responseBody.resend ?? false) {
         return get(url, context: context, params: params);
       }
       if (responseBody.reLogin) {
