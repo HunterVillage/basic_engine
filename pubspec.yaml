@@ -17,6 +17,7 @@ dependencies:
   rxdart: ^0.22.6
   vibrate: ^0.0.4
   flutter_earth: ^0.0.4
+  device_info: ^0.4.1+4
 
 dev_dependencies:
   flutter_test:

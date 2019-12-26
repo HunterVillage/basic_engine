@@ -22,7 +22,11 @@ class SocketClient {
 
   Future<bool> connect() async {
     UserInfo userInfo = app.userInfo;
-    _webSocket = await WebSocket.connect(app.global.wsUrl, headers: {'avatar': userInfo.avatar}).catchError((e) {
+    String serialNo = app.androidInfo.androidId;
+    _webSocket = await WebSocket.connect(app.global.wsUrl, headers: {
+      'avatar': userInfo.avatar,
+      'serialNo': serialNo,
+    }).catchError((e) {
       throw new Exception(e);
     });
     _webSocket.readyState;

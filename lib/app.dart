@@ -7,6 +7,7 @@ import 'package:basic_engine/common/message_box.dart';
 import 'package:basic_engine/message/notifier.dart';
 import 'package:basic_engine/message/socket_client.dart';
 import 'package:basic_engine/model/user_info.dart';
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 
 const bool inProduction = const bool.fromEnvironment("dart.vm.product");
@@ -20,6 +21,7 @@ class App {
   GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
   Notifier _notifier;
   MessageBox _messageBox;
+  AndroidDeviceInfo _androidInfo;
 
   App._();
 
@@ -34,6 +36,7 @@ class App {
   Future init({@required String baseUrl, @required String wsUrl}) async {
     _global = await Global.getInstance();
     _socketClient = await SocketClient.getInstance();
+    _androidInfo = await DeviceInfoPlugin().androidInfo;
     _notifier = Notifier.getInstance();
     _messageBox = MessageBox.getInstance();
     userInfo = _global.userInfo;
@@ -61,4 +64,6 @@ class App {
   Notifier get notifier => _notifier;
 
   MessageBox get messageBox => _messageBox;
+
+  AndroidDeviceInfo get androidInfo => _androidInfo;
 }
