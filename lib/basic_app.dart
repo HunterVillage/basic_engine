@@ -41,6 +41,7 @@ class BasicAppState extends State<BasicApp> {
     this._controlLoginPage();
     _homePage = HomePage(title: widget.homeTitle);
     _routers = {'loginPage': (_) => _loginPage, 'homePage': (_) => _homePage};
+    _routers.addAll(app.routers);
     _routers.addAll(widget.routers);
   }
 

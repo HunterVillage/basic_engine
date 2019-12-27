@@ -22,6 +22,7 @@ class App {
   Notifier _notifier;
   MessageBox _messageBox;
   AndroidDeviceInfo _androidInfo;
+  Map<String, WidgetBuilder> _routers = {};
 
   App._();
 
@@ -48,11 +49,17 @@ class App {
   }
 
   void installBundles(String groupName, List<Bundle> bundles) {
-    bundles.forEach((bundle) => BundleBoss.register(groupName, bundle));
+    bundles.forEach((bundle) {
+      BundleBoss.register(groupName, bundle);
+      _routers.putIfAbsent(bundle.id, () => (_) => bundle);
+    });
   }
 
   void installPianos(String groupName, List<Piano> pianos) {
-    pianos.forEach((piano) => PianoBoss.register(groupName, piano));
+    pianos.forEach((piano) {
+      PianoBoss.register(groupName, piano);
+      _routers.putIfAbsent(piano.id, () => (_) => piano);
+    });
   }
 
   Global get global => _global;
@@ -66,4 +73,6 @@ class App {
   MessageBox get messageBox => _messageBox;
 
   AndroidDeviceInfo get androidInfo => _androidInfo;
+
+  Map<String, WidgetBuilder> get routers => _routers;
 }
