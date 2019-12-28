@@ -22,7 +22,7 @@ class TipsTool {
         this._message = message;
 
   Future<bool> show() {
-    Color textColor = _type == TipType.INFO ? Colors.black : _type == TipType.WARNING ? Colors.deepOrange[300] : Colors.red[600];
+    Color textColor = _type == TipType.INFO ? Colors.black : _type == TipType.WARNING ? Colors.orange : Colors.red[600];
     return Fluttertoast.showToast(
         msg: _message,
         toastLength: Toast.LENGTH_LONG,
