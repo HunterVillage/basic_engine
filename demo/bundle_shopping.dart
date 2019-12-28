@@ -1,6 +1,6 @@
+import 'package:basic_engine/bundle/bundle.dart';
 import 'package:basic_engine/constant/icon_constant.dart';
 import 'package:flutter/material.dart';
-import 'package:basic_engine/bundle/bundle.dart';
 
 class BundleShopping extends StatelessBundle {
   @override

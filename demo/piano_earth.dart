@@ -29,7 +29,7 @@ class PianoEarth extends StatelessPiano {
   int get sort => 1;
 
   @override
-  String get cnName => '地    图';
+  String get cnName => '地图';
 }
 
 class Earth extends StatefulWidget {

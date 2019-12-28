@@ -46,12 +46,12 @@ class PianoBoss {
         child: GestureDetector(
           child: ListTile(
             leading: Hero(tag: piano.id, child: piano.leading),
-            title: Text(piano.cnName, style: TextStyle(color: Colors.black54)),
+            title: Text(piano.cnName, style: TextStyle(color: Theme.of(context).hintColor)),
             trailing: Icon(Icons.chevron_right),
           ),
           onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => piano)),
         ),
-        color: Colors.white,
+        color: Theme.of(context).canvasColor,
       );
     }).toList();
     pianoButtons.add(Container(height: 20));

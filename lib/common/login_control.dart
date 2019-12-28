@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:basic_engine/basic_app.dart';
 import 'package:basic_engine/common/dio_client.dart';
 import 'package:basic_engine/model/user_info.dart';
-import 'package:basic_engine/widgets/tips_tool.dart';
+import 'package:basic_engine/widgets/tips/tips_tool.dart';
 
 class LoginControl {
   LoginControl._();

@@ -10,6 +10,12 @@ class PianoAlbum extends StatelessPiano {
         leading: Hero(tag: id, child: leading),
         title: Text('Album'),
       ),
+      body: Center(
+        child: MaterialButton(
+          onPressed: () => Navigator.of(context).pushNamed('card'),
+          child: Text('Go To Card'),
+        ),
+      ),
     );
   }
 
@@ -23,5 +29,5 @@ class PianoAlbum extends StatelessPiano {
   int get sort => 3;
 
   @override
-  String get cnName => '相    册';
+  String get cnName => '相册';
 }

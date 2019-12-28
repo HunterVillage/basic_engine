@@ -6,7 +6,9 @@ import 'package:basic_engine/home/tabs/news_tab/news_detail.dart';
 import 'package:basic_engine/home/tabs/person_tab/person_center.dart';
 import 'package:basic_engine/home/widgets/bottom_navy_bar.dart';
 import 'package:basic_engine/message/notifier.dart';
+import 'package:basic_engine/widgets/dialogs/whether_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:pda_scanner/pda_listener.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -17,7 +19,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends PdaListenerState<HomePage> {
   PageController _pageController;
   int _currentIndex = 0;
   int _newsNum;
@@ -47,7 +49,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-
       body: SizedBox.expand(
         child: PageView(
           controller: _pageController,
@@ -74,5 +75,22 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  @override
+  Future<void> onEvent(Object code) async {
+    bool result = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return WhetherDialog(
+          trueText: '同意',
+          falseText: '不同意',
+          title: '扫描解析条码号',
+          content: '条码号为：$code，\n是否进行审核操作',
+        );
+      },
+    );
+    print(result);
   }
 }

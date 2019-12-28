@@ -30,7 +30,7 @@ class WhetherDialog extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Colors.white,
-          boxShadow: <BoxShadow>[new BoxShadow(color: Colors.black54, blurRadius: 7.0)],
+          boxShadow: <BoxShadow>[new BoxShadow(color: Theme.of(context).hintColor, blurRadius: 7.0)],
         ),
         child: Column(
           children: <Widget>[

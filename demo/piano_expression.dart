@@ -23,5 +23,5 @@ class PianoExpression extends StatelessPiano {
   int get sort => 5;
 
   @override
-  String get cnName => '表    情';
+  String get cnName => '表情';
 }

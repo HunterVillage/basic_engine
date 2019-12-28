@@ -13,7 +13,7 @@ class NewsBar extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Container(
-          decoration: new BoxDecoration(color: Colors.grey[300]),
+          decoration: new BoxDecoration(color: Theme.of(context).hintColor),
           height: height,
         ),
         AppBar(
@@ -22,11 +22,11 @@ class NewsBar extends StatelessWidget {
           centerTitle: true,
           leading: Navigator.canPop(context)
               ? GestureDetector(
-                  child: Icon(Icons.arrow_back, color: Colors.black54),
+                  child: Icon(Icons.arrow_back, color: Theme.of(context).hintColor),
                   onTap: () => Navigator.of(context).pop(),
                 )
               : Container(),
-          title: Text(title, style: TextStyle(fontFamily: 'pinshang', fontWeight: FontWeight.bold, color: Colors.black54)),
+          title: Text(title, style: TextStyle(fontFamily: 'pinshang', fontWeight: FontWeight.bold, color: Theme.of(context).cardColor)),
         ),
       ],
     );

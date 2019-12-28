@@ -59,7 +59,7 @@ class NewsDetailState extends State<NewsDetail> {
                           ),
                           Text(
                             '${_messageBody.sendTime.year}年${_messageBody.sendTime.month}月${_messageBody.sendTime.day}日 ${_messageBody.sendTime.hour}:${_messageBody.sendTime.minute}',
-                            style: TextStyle(fontSize: 15, color: Colors.black54),
+                            style: TextStyle(fontSize: 15, color: Theme.of(context).hintColor),
                           ),
                           Divider(height: 27),
                           Text(_messageBody.content, style: TextStyle(fontSize: 15, color: Colors.grey[700], height: 1.7)),

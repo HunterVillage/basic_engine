@@ -1,6 +1,6 @@
 import 'package:basic_engine/common/login_control.dart';
-import 'package:basic_engine/widgets/tip_bar.dart';
-import 'package:basic_engine/widgets/tips_tool.dart';
+import 'package:basic_engine/widgets/tips/tip_bar.dart';
+import 'package:basic_engine/widgets/tips/tips_tool.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

@@ -23,5 +23,5 @@ class PianoCollect extends StatelessPiano {
   int get sort => 2;
 
   @override
-  String get cnName => '收    藏';
+  String get cnName => '收藏';
 }

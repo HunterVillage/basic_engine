@@ -4,27 +4,23 @@ import 'package:flutter/material.dart';
 class ForwardButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String label;
-  final bool disabled;
 
-  ForwardButton({this.onPressed, this.label, this.disabled = false});
+  ForwardButton({this.onPressed, this.label});
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.horizontal(left: Radius.circular(50.0)),
-      child: Opacity(
-        opacity: disabled ? 0.8 : 1,
-        child: MaterialButton(
-          elevation: 12.0,
-          minWidth: 70.0,
-          color: Color(getColorHexFromStr('#667898')),
-          onPressed: disabled ? () {} : onPressed,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8),
-            child: Text(
-              label,
-              style: Theme.of(context).textTheme.title.copyWith(color: Colors.white),
-            ),
+      child: MaterialButton(
+        elevation: 12.0,
+        minWidth: 70.0,
+        color: Color(getColorHexFromStr('#667898')),
+        onPressed: onPressed,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8),
+          child: Text(
+            label,
+            style: Theme.of(context).textTheme.title.copyWith(color: Colors.white),
           ),
         ),
       ),

@@ -28,18 +28,18 @@ class ExpoundDialog extends StatelessWidget {
             height: height,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-              boxShadow: <BoxShadow>[new BoxShadow(color: Colors.black54, blurRadius: 7.0)],
+              color: Theme.of(context).cardColor,
             ),
             child: Column(
               children: <Widget>[
-                Text(title, style: TextStyle(color: Colors.black, fontSize: 18, decoration: TextDecoration.none, fontFamily: 'pinshang')),
+                Text(title, style: TextStyle(color: Theme.of(context).primaryColorLight, fontSize: 18, decoration: TextDecoration.none, fontFamily: 'pinshang')),
                 Divider(),
                 Expanded(
                   child: SizedBox(
                     width: width - 20,
                     child: SingleChildScrollView(
-                      child: Text(content, style: TextStyle(color: Colors.black, fontSize: 15, decoration: TextDecoration.none, fontWeight: FontWeight.normal)),
+                      child: Text(content,
+                          style: TextStyle(color: Theme.of(context).primaryColorLight, fontSize: 15, decoration: TextDecoration.none, fontWeight: FontWeight.normal)),
                     ),
                   ),
                 ),
@@ -51,12 +51,12 @@ class ExpoundDialog extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Expanded(
-                  child: VerticalDivider(color: Colors.white),
+                  child: VerticalDivider(color: Theme.of(context).cardColor),
                 ),
                 GestureDetector(
                   child: Icon(
                     Icons.highlight_off,
-                    color: Colors.white,
+                    color: Theme.of(context).cardColor,
                     size: 30,
                   ),
                   onTap: () => Navigator.of(context).pop(),

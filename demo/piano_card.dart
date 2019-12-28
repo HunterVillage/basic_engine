@@ -23,5 +23,5 @@ class PianoCard extends StatelessPiano {
   int get sort => 4;
 
   @override
-  String get cnName => '卡    包';
+  String get cnName => '卡包';
 }

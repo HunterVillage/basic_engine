@@ -82,7 +82,7 @@ class DynamicListState extends State<DynamicList> {
             onRefresh: this._onRefresh,
             child: this.widget.separated
                 ? ListView.separated(
-                    separatorBuilder: (BuildContext context, int index) => Divider(height: 1.0, color: Colors.black54),
+                    separatorBuilder: (BuildContext context, int index) => Divider(height: 1.0, color: Theme.of(context).hintColor),
                     itemCount: _dataList.length + 1,
                     itemBuilder: (context, index) {
                       if (index == _dataList.length) {

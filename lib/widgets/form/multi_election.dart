@@ -7,7 +7,7 @@ class MultiElection extends StatefulWidget {
   final List<MultiElectionItem> list;
   final OnPressedFunction onPressed;
   final MaterialColor color;
-  final MaterialColor selectedColor;
+  final Color selectedColor;
   final List value;
   final bool disabled;
 
@@ -29,7 +29,7 @@ class MultiElection extends StatefulWidget {
 
 class MultiElectionState extends State<MultiElection> {
   MaterialColor _selectedColor;
-  MaterialColor _unSelectedColor;
+  Color _unSelectedColor;
 
   @override
   void initState() {
@@ -39,15 +39,12 @@ class MultiElectionState extends State<MultiElection> {
     } else {
       _selectedColor = Colors.blue;
     }
-    if (widget.color != null) {
-      _unSelectedColor = widget.color;
-    } else {
-      _unSelectedColor = Colors.grey;
-    }
+    if (widget.color != null) _unSelectedColor = widget.color;
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.color == null) _unSelectedColor = Theme.of(context).iconTheme.color;
     return Opacity(
       opacity: widget.disabled ? 0.5 : 1,
       child: Padding(
@@ -93,12 +90,12 @@ class MultiElectionState extends State<MultiElection> {
                   height: 30,
                   margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                   child: FlatButton(
-                    color: selected ? _selectedColor[50] : _unSelectedColor[50],
+                    color: selected ? _selectedColor[50] : Colors.transparent,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(12)), side: BorderSide(color: selected ? _selectedColor : _unSelectedColor[800])),
+                        borderRadius: BorderRadius.all(Radius.circular(12)), side: BorderSide(color: selected ? _selectedColor : _unSelectedColor)),
                     child: Text(
                       widget.list[index].label,
-                      style: new TextStyle(color: selected ? _selectedColor : _unSelectedColor[800]),
+                      style: new TextStyle(color: selected ? _selectedColor : _unSelectedColor),
                     ),
                     onPressed: widget.disabled ? () {} : () => widget.onPressed(widget.list[index]),
                   ),
@@ -117,13 +114,13 @@ class MultiElectionItem {
 
   MultiElectionItem(this.label, this.value);
 
-  MultiElectionItem.fromJson(Map<String, dynamic> json, {labelName, valueName})
-      : label = json[labelName ?? 'label'] ?? '',
-        value = json[valueName ?? 'value'] ?? '',
-        sourceBody = json;
+  MultiElectionItem.fromMap(Map<String, dynamic> map, {labelName, valueName})
+      : label = map[labelName ?? 'label'] ?? '',
+        value = map[valueName ?? 'value'] ?? '',
+        sourceBody = map;
 
-  static List<MultiElectionItem> allFromJson(List jsonList, {labelName, valueName}) {
-    return jsonList != null ? jsonList.map((json) => MultiElectionItem.fromJson(json, labelName: labelName, valueName: valueName)).toList() : [];
+  static List<MultiElectionItem> allFromMap(List mapList, {labelName, valueName}) {
+    return mapList != null ? mapList.map((map) => MultiElectionItem.fromMap(map, labelName: labelName, valueName: valueName)).toList() : [];
   }
 }
 

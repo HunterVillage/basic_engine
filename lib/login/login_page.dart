@@ -169,7 +169,7 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
               builder: (_) {
                 return GradientCircularProgressRoute(
                   colors: [Colors.yellow, Colors.orange],
-                  label: Container(child: Text('loading...', style: TextStyle(fontSize: 15, color: Colors.white70, decoration: TextDecoration.none))),
+                  label: Container(child: Text('登录中……', style: TextStyle(fontSize: 15, color: Colors.white70, decoration: TextDecoration.none))),
                 );
               });
           bool validate = _formKey.currentState.validate();

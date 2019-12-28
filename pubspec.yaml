@@ -16,6 +16,7 @@ dependencies:
   flutter_local_notifications: ^0.8.4+3
   rxdart: ^0.22.6
   vibrate: ^0.0.4
+  pda_scanner: ^0.2.3
   flutter_earth: ^0.0.4
   device_info: ^0.4.1+4
   fluttertoast: ^3.1.3

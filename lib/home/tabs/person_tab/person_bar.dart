@@ -17,7 +17,7 @@ class PersonBar extends StatelessWidget {
             gradient: new LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [Colors.blue[600], Colors.blue[200]],
+              colors: [Theme.of(context).primaryColor, Theme.of(context).cardColor],
             ),
           ),
           height: height,

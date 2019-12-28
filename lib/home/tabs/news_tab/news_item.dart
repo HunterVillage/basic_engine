@@ -25,13 +25,13 @@ class NewsItem extends StatelessWidget {
                   children: <Widget>[
                     Text(messageBody.senderName ?? '', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold), maxLines: 1),
                     Text('${messageBody.sendTime.month}/${messageBody.sendTime.day} ${messageBody.sendTime.hour}:${messageBody.sendTime.minute}',
-                        style: TextStyle(fontSize: 13, color: Colors.black45), maxLines: 1),
+                        style: TextStyle(fontSize: 13, color: Theme.of(context).hintColor), maxLines: 1),
                   ],
                 ),
                 Text(messageBody.title ?? '', style: TextStyle(fontSize: 14), maxLines: 1),
                 Text(
                   messageBody.content ?? '',
-                  style: TextStyle(fontSize: 14, color: Colors.black45),
+                  style: TextStyle(fontSize: 14, color: Theme.of(context).hintColor),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

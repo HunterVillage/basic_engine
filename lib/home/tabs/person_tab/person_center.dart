@@ -46,68 +46,65 @@ class PersonCenterState extends State<PersonCenter> {
   }
 
   Widget _buildUserCard() {
-    return Container(
-      margin: EdgeInsets.all(20),
+    return Padding(
       padding: EdgeInsets.all(20),
-      height: 160,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Row(
+      child: Card(
+        child: Container(
+          padding: EdgeInsets.all(20),
+          height: 160,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Container(
-                width: 70,
-                height: 70,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+              Row(
+                children: <Widget>[
+                  Container(
+                    width: 70,
+                    height: 70,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
 //                  child: Image.file(
 //                    File('/sdcard/headPhoto.jpeg'),
 //                    fit: BoxFit.cover,
 //                  ),
-                  child: Image.network('https://semantic-ui.com/images/avatar2/large/matthew.png'),
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  color: Colors.grey[200],
-                ),
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              SizedBox(
-                height: 60,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Text(
-                      _userInfo.name,
-                      style: TextStyle(fontSize: 18, fontFamily: 'pinshang'),
+                      child: Image.network('https://semantic-ui.com/images/avatar2/large/matthew.png'),
                     ),
-                    Text(_userInfo.departmentName ?? '未填写部门信息', style: TextStyle(color: Colors.black54)),
-                  ],
-                ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      color: Colors.grey[200],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  SizedBox(
+                    height: 60,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text(
+                          _userInfo.name,
+                          style: TextStyle(fontSize: 18, fontFamily: 'pinshang'),
+                        ),
+                        Text(_userInfo.departmentName ?? '未填写部门信息', style: TextStyle(color: Theme.of(context).hintColor)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Text('ID: ${_userInfo.avatar}', style: TextStyle(color: Theme.of(context).hintColor)),
+                  Icon(MyIcons.qrCode, color: Theme.of(context).hintColor),
+                ],
               ),
             ],
           ),
-          Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Text('ID: ${_userInfo.avatar}', style: TextStyle(color: Colors.black54)),
-              Icon(MyIcons.qrCode, color: Colors.black54),
-            ],
-          ),
-        ],
-      ),
-      alignment: Alignment(0.0, 0.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-        boxShadow: <BoxShadow>[
-          BoxShadow(blurRadius: 1.0, color: Colors.grey[400]),
-        ],
+          alignment: Alignment(0.0, 0.0),
+        ),
       ),
     );
   }
@@ -118,27 +115,28 @@ class PersonCenterState extends State<PersonCenter> {
         Container(
           child: ListTile(
             leading: Icon(MyIcons.fill, color: Colors.teal),
-            title: Text('主题', style: TextStyle(color: Colors.black54)),
+            title: Text('主题', style: TextStyle(color: Theme.of(context).hintColor)),
             trailing: Icon(Icons.chevron_right),
             onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => ThemeSwitcher())),
           ),
-          color: Colors.white,
+          color: Theme.of(context).canvasColor,
         ),
         Container(
           child: ListTile(
             leading: Icon(MyIcons.lock, color: Colors.deepOrange),
-            title: Text('修改密码', style: TextStyle(color: Colors.black54)),
+            title: Text('修改密码', style: TextStyle(color: Theme.of(context).hintColor)),
             trailing: Icon(Icons.chevron_right),
           ),
-          color: Colors.white,
+          color: Theme.of(context).canvasColor,
         ),
         Divider(height: 1),
         Container(
-            child: ListTile(
-              title: Center(child: Text('注销登录', style: TextStyle(fontFamily: 'shouji', color: Colors.black54, fontSize: 18))),
-              onTap: () => LoginControl.getInstance().logOut(),
-            ),
-            color: Colors.white),
+          child: ListTile(
+            title: Center(child: Text('注销登录', style: TextStyle(fontFamily: 'shouji', color: Theme.of(context).hintColor, fontSize: 18))),
+            onTap: () => LoginControl.getInstance().logOut(),
+          ),
+          color: Theme.of(context).canvasColor,
+        ),
       ],
     );
   }
