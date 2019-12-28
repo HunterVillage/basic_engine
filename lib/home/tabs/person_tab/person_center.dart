@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:basic_engine/app.dart';
 import 'package:basic_engine/bundle/piano_boss.dart';
 import 'package:basic_engine/common/login_control.dart';
 import 'package:basic_engine/constant/icon_constant.dart';
+import 'package:basic_engine/home/tabs/person_tab/pages/theme_switcher.dart';
 import 'package:basic_engine/home/tabs/person_tab/person_bar.dart';
 import 'package:basic_engine/model/user_info.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +64,7 @@ class PersonCenterState extends State<PersonCenter> {
 //                    File('/sdcard/headPhoto.jpeg'),
 //                    fit: BoxFit.cover,
 //                  ),
-                child: Image.network('https://semantic-ui.com/images/avatar2/large/matthew.png'),
+                  child: Image.network('https://semantic-ui.com/images/avatar2/large/matthew.png'),
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -118,7 +117,16 @@ class PersonCenterState extends State<PersonCenter> {
       children: <Widget>[
         Container(
           child: ListTile(
-            leading: Icon(MyIcons.lock, color: Colors.green[400]),
+            leading: Icon(MyIcons.fill, color: Colors.teal),
+            title: Text('主题', style: TextStyle(color: Colors.black54)),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => ThemeSwitcher())),
+          ),
+          color: Colors.white,
+        ),
+        Container(
+          child: ListTile(
+            leading: Icon(MyIcons.lock, color: Colors.deepOrange),
             title: Text('修改密码', style: TextStyle(color: Colors.black54)),
             trailing: Icon(Icons.chevron_right),
           ),

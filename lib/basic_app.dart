@@ -1,5 +1,7 @@
 import 'package:basic_engine/app.dart';
+import 'package:basic_engine/common/global.dart';
 import 'package:basic_engine/common/message_box.dart';
+import 'package:basic_engine/common/theme_painter.dart';
 import 'package:basic_engine/home/home_page.dart';
 import 'package:basic_engine/login/login_page.dart';
 import 'package:basic_engine/message/notifier.dart';
@@ -41,8 +43,13 @@ class BasicAppState extends State<BasicApp> {
     this._controlLoginPage();
     _homePage = HomePage(title: widget.homeTitle);
     _routers = {'loginPage': (_) => _loginPage, 'homePage': (_) => _homePage};
-    _routers.addAll(app.routers);
     _routers.addAll(widget.routers);
+    _routers.addAll(app.routers);
+
+    themeSubject.listen((themeType) {
+      ThemeData themeData = app.themePainter.getThemeData(themeType);
+      this.setState(() => _themeData = themeData);
+    });
   }
 
   @override
@@ -66,14 +73,17 @@ class BasicAppState extends State<BasicApp> {
   }
 
   _controlTheme() {
-    if (widget.theme == null) {
-      _themeData = ThemeData(
-        backgroundColor: Colors.grey[100],
-        primaryColorLight: Colors.black54,
-        cardColor: Colors.white,
-      );
+    String _currentThemeType = app.global.themeType;
+    if (_currentThemeType != null) {
+      _themeData = app.themePainter.getThemeData(_currentThemeType);
     } else {
-      _themeData = widget.theme;
+      if (widget.theme == null) {
+        app.global.initThemeType(ThemeType.light);
+        _themeData = app.themePainter.getThemeData(ThemeType.light);
+      } else {
+        _themeData = widget.theme;
+        app.themePainter.add(_themeData);
+      }
     }
   }
 

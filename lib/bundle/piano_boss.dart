@@ -1,4 +1,5 @@
 import 'package:basic_engine/app.dart';
+import 'package:basic_engine/basic_app.dart';
 import 'package:basic_engine/bundle/piano.dart';
 import 'package:basic_engine/model/user_info.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class PianoBoss {
     if (_userInfo != null) {
       List pianoIds = _userInfo.bundleIds;
       _pool.entries.forEach((entry) {
-        List<Piano> pianos = entry.value.values.where((piano) => inProduction ? pianoIds.contains(piano.id) : true).toList();
+        List<Piano> pianos = entry.value.values.where((piano) => app.menuFree ? true : pianoIds.contains(piano.id)).toList();
         pianos.sort((piano1, piano2) => piano1.sort > piano2.sort ? 1 : -1);
         if (pianos.length > 0) groupingPianos.putIfAbsent(entry.key, () => pianos);
       });

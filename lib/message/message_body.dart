@@ -6,9 +6,11 @@ const SYSTEM_ACTION_MESSAGE = 'SystemActionMessage';
 class MessageBody {
   final String _type;
   final String _cmd;
+
   final String _uuid;
   final String _sender;
   final String _senderName;
+  final String _bundleId;
   final String _title;
   final String _content;
   final DateTime _sendTime;
@@ -17,6 +19,7 @@ class MessageBody {
   MessageBody.fromMap(Map<String, dynamic> map)
       : this._type = map['type'],
         this._cmd = map['cmd'],
+        this._bundleId = map['bundleId'],
         this._title = map['title'],
         this._uuid = map['uuid'],
         this._sender = map['sender'],
@@ -39,6 +42,7 @@ class MessageBody {
         'uuid': this._uuid,
         'sender': this._sender,
         'senderName': this._senderName,
+        'bundleId': this._bundleId,
         'title': this._title,
         'content': this._content,
         'sendTime': this._sendTime,
@@ -67,4 +71,6 @@ class MessageBody {
   bool get unread => _unread;
 
   DateTime get sendTime => _sendTime;
+
+  String get bundleId => _bundleId;
 }

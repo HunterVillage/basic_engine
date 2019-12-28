@@ -134,7 +134,7 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
 
   Widget _buildTextFormPassword(TextTheme textTheme) {
     return FadeTransition(
-      opacity: enterAnimation.passowrdOpacity,
+      opacity: enterAnimation.passwordOpacity,
       child: TextFormField(
         style: textTheme.title.copyWith(color: Colors.black87, letterSpacing: 1.2),
         decoration: new InputDecoration(
@@ -196,7 +196,7 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
 
   Widget _transTopView(Size size, TextTheme textTheme) {
     return Transform(
-      transform: Matrix4.translationValues(0.0, -enterAnimation.Ytranslation.value * size.height, 0.0),
+      transform: Matrix4.translationValues(0.0, -enterAnimation.yTranslation.value * size.height, 0.0),
       child: LoginTopBar(
           child: Container(
         height: size.height * 0.67,
@@ -213,7 +213,7 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
               ),
             ),
             Transform(
-              transform: Matrix4.translationValues(-enterAnimation.Xtranslation.value * size.width, 0.0, 0.0),
+              transform: Matrix4.translationValues(-enterAnimation.xTranslation.value * size.width, 0.0, 0.0),
               child: Padding(
                 padding: EdgeInsets.only(top: size.height * 0.15, left: 24, right: 24),
                 child: HeaderText(text: widget.titleLabel, imagePath: widget.logoPath),

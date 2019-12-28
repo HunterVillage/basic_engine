@@ -4,6 +4,7 @@ import 'package:basic_engine/bundle/piano.dart';
 import 'package:basic_engine/bundle/piano_boss.dart';
 import 'package:basic_engine/common/global.dart';
 import 'package:basic_engine/common/message_box.dart';
+import 'package:basic_engine/common/theme_painter.dart';
 import 'package:basic_engine/message/notifier.dart';
 import 'package:basic_engine/message/socket_client.dart';
 import 'package:basic_engine/model/user_info.dart';
@@ -22,7 +23,9 @@ class App {
   Notifier _notifier;
   MessageBox _messageBox;
   AndroidDeviceInfo _androidInfo;
+  bool _menuFree;
   Map<String, WidgetBuilder> _routers = {};
+  ThemePainter _themePainter;
 
   App._();
 
@@ -34,12 +37,14 @@ class App {
     return _instance;
   }
 
-  Future init({@required String baseUrl, @required String wsUrl}) async {
+  Future init({@required String baseUrl, @required String wsUrl, bool menuFree = !inProduction}) async {
     _global = await Global.getInstance();
     _socketClient = await SocketClient.getInstance();
     _androidInfo = await DeviceInfoPlugin().androidInfo;
     _notifier = Notifier.getInstance();
     _messageBox = MessageBox.getInstance();
+    _themePainter = ThemePainter.getInstance();
+    _menuFree = menuFree;
     userInfo = _global.userInfo;
     if (userInfo != null) {
       await _socketClient.connect();
@@ -74,5 +79,10 @@ class App {
 
   AndroidDeviceInfo get androidInfo => _androidInfo;
 
+  bool get menuFree => _menuFree;
+
   Map<String, WidgetBuilder> get routers => _routers;
+
+  ThemePainter get themePainter => _themePainter;
+
 }

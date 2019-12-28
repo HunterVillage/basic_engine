@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:basic_engine/model/user_info.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final PublishSubject<List<String>> shortcutSubject = PublishSubject<List<String>>();
+final PublishSubject<String> themeSubject = PublishSubject<String>();
 
 class Global {
   static final String _tokenKey = '0';
@@ -13,6 +15,7 @@ class Global {
   static final String _baseUrlKey = '2';
   static final String _wsUrlKey = '3';
   static final String _shortcutKey = '4';
+  static final String _themeTypeKey = '5';
 
   static final Global _instance = Global._();
   static SharedPreferences _sp;
@@ -90,4 +93,15 @@ class Global {
     _sp.setStringList(_shortcutKey, bundleIdList);
     shortcutSubject.add(shortcutBundleIds);
   }
+
+  void initThemeType(String themeType) {
+    _sp.setString(_themeTypeKey, themeType);
+  }
+
+  void setThemeType(String themeType) {
+    _sp.setString(_themeTypeKey, themeType);
+    themeSubject.add(themeType);
+  }
+
+  String get themeType => _sp.get(_themeTypeKey);
 }

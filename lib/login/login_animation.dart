@@ -32,7 +32,7 @@ class LoginEnterAnimation {
             ),
           ),
         ),
-        passowrdOpacity = new Tween(begin: 0.0, end: 1.0).animate(
+        passwordOpacity = new Tween(begin: 0.0, end: 1.0).animate(
           new CurvedAnimation(
             parent: controller,
             curve: new Interval(
@@ -52,7 +52,7 @@ class LoginEnterAnimation {
             ),
           ),
         ),
-        Xtranslation = new Tween(begin: 1.0, end: 0.0).animate(
+        xTranslation = new Tween(begin: 1.0, end: 0.0).animate(
           new CurvedAnimation(
             parent: controller,
             curve: new Interval(
@@ -62,7 +62,7 @@ class LoginEnterAnimation {
             ),
           ),
         ),
-        Ytranslation = new Tween(begin: 1.0, end: 0.0).animate(
+        yTranslation = new Tween(begin: 1.0, end: 0.0).animate(
           new CurvedAnimation(
             parent: controller,
             curve: new Interval(
@@ -118,10 +118,10 @@ class LoginEnterAnimation {
   final Animation<double> backgroundOpacity;
   final Animation<double> userNameOpacity;
   final Animation<double> dividerScale;
-  final Animation<double> passowrdOpacity;
+  final Animation<double> passwordOpacity;
   final Animation<double> translation;
-  final Animation<double> Xtranslation;
-  final Animation<double> Ytranslation;
+  final Animation<double> xTranslation;
+  final Animation<double> yTranslation;
   final Animation<double> twitterScaleTranslation;
   final Animation<double> facebookScaleTranslation;
   final Animation<double> googleScaleTranslation;
