@@ -1,5 +1,6 @@
 import 'package:basic_engine/common/login_control.dart';
 import 'package:basic_engine/widgets/tip_bar.dart';
+import 'package:basic_engine/widgets/tips_tool.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class DioClient<T> {
 
   Global _global;
 
-  Future<ResponseBody<T>> post(url, {BuildContext context, params}) async {
+  Future<ResponseBody<T>> post(url, {params}) async {
     _global = await Global.getInstance();
     _dio.options.headers = {'Authorization': 'Bearer ' + _global.token};
     _dio.options.baseUrl = _global.baseUrl;
@@ -25,15 +26,15 @@ class DioClient<T> {
       response = await _dio.post(url, data: params);
     } on DioError catch (e) {
       print(e);
-      if (context != null) Scaffold.of(context).showSnackBar(TipBar.build('网络异常'));
+      TipsTool.error('网络异常').show();
     }
     if (response != null) {
       ResponseBody<T> responseBody = ResponseBody<T>.fromMap(response.data);
       if (responseBody.token != null) {
         _global.setToken(responseBody.token);
       }
-      if (responseBody.resend) {
-        return post(url, context: context, params: params);
+      if (responseBody.resend ?? false) {
+        return post(url, params: params);
       }
       return responseBody;
     } else {
@@ -41,7 +42,7 @@ class DioClient<T> {
     }
   }
 
-  Future<ResponseBody<T>> get(url, {BuildContext context, params}) async {
+  Future<ResponseBody<T>> get(url, {params}) async {
     _global = await Global.getInstance();
     _dio.options.headers = {'Authorization': 'Bearer ' + _global.token};
     _dio.options.baseUrl = _global.baseUrl;
@@ -51,15 +52,15 @@ class DioClient<T> {
       response = await _dio.get(url, queryParameters: params);
     } on DioError catch (e) {
       print(e);
-      if (context != null) Scaffold.of(context).showSnackBar(TipBar.build('网络异常'));
+      TipsTool.error('网络异常').show();
     }
     if (response != null) {
       ResponseBody<T> responseBody = ResponseBody<T>.fromMap(response.data);
       if (responseBody.token != null) {
         _global.setToken(responseBody.token);
       }
-      if (responseBody.resend ?? false) {
-        return get(url, context: context, params: params);
+      if (responseBody.resend) {
+        return get(url, params: params);
       }
       if (responseBody.reLogin) {
         LoginControl.getInstance().logOut();

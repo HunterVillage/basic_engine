@@ -5,6 +5,7 @@ import 'package:basic_engine/login/utility/login_constant.dart';
 import 'package:basic_engine/login/widgets/forward_button.dart';
 import 'package:basic_engine/login/widgets/header_text.dart';
 import 'package:basic_engine/login/widgets/login_top_bar.dart';
+import 'package:basic_engine/widgets/loading/gradient_circular_progress_route.dart';
 import 'package:flutter/material.dart';
 
 import 'login_animation.dart';
@@ -37,8 +38,6 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
 
   String _userName;
   String _password;
-
-  bool _buttonDisabled = false;
 
   @override
   initState() {
@@ -123,7 +122,6 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
         controller: _userNameController,
         validator: (val) {
           if (val.length == 0) {
-            this.setState(() => _buttonDisabled = false);
             return USER_NAME_VALIDATION_EMPTY;
           } else {
             return null;
@@ -150,7 +148,6 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
         obscureText: true,
         validator: (val) {
           if (val.length == 0) {
-            this.setState(() => _buttonDisabled = false);
             return USER_NAME_VALIDATION_EMPTY;
           } else {
             return null;
@@ -165,18 +162,30 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
     return Transform(
       transform: Matrix4.translationValues(enterAnimation.translation.value * 200, enterAnimation.translation.value * 20, 0.0),
       child: ForwardButton(
-        disabled: _buttonDisabled,
         onPressed: () async {
-          this.setState(() => _buttonDisabled = true);
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (_) {
+                return GradientCircularProgressRoute(
+                  colors: [Colors.yellow, Colors.orange],
+                  label: Container(child: Text('loading...', style: TextStyle(fontSize: 15, color: Colors.white70, decoration: TextDecoration.none))),
+                );
+              });
           bool validate = _formKey.currentState.validate();
           if (validate) {
             _formKey.currentState.save();
-            bool success = await LoginControl.getInstance().login(context, _userName, _password);
+            bool success;
+            try {
+              success = await LoginControl.getInstance().login(_userName, _password);
+            } catch (e) {
+              Navigator.of(context).pop();
+            }
             if (success) {
               await animationController.reverse();
               app.navigatorKey.currentState.pushNamedAndRemoveUntil('homePage', (route) => route == null);
             } else {
-              this.setState(() => _buttonDisabled = false);
+              Navigator.of(context).pop();
             }
           }
         },
