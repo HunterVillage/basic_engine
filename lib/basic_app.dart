@@ -35,6 +35,7 @@ class BasicAppState extends State<BasicApp> {
   Widget _loginPage;
   Widget _homePage;
   ThemeData _themeData;
+  int _lastClickTime = 0;
 
   @override
   void initState() {
@@ -68,7 +69,10 @@ class BasicAppState extends State<BasicApp> {
       routes: _routers,
       title: widget.appTitle,
       theme: _themeData,
-      home: _currentPage,
+      home: WillPopScope(
+        child: _currentPage,
+        onWillPop: _doubleExit,
+      ),
     );
   }
 
@@ -96,6 +100,19 @@ class BasicAppState extends State<BasicApp> {
           welcomeLabel: 'Albert Einstein: Logic will get you from A to B. Imagination will take you everywhere.');
     } else {
       _loginPage = widget.loginPage;
+    }
+  }
+
+  Future<bool> _doubleExit() {
+    int nowTime = new DateTime.now().microsecondsSinceEpoch;
+    if (_lastClickTime != 0 && nowTime - _lastClickTime > 500) {
+      return new Future.value(true);
+    } else {
+      _lastClickTime = new DateTime.now().microsecondsSinceEpoch;
+      new Future.delayed(const Duration(milliseconds: 500), () {
+        _lastClickTime = 0;
+      });
+      return new Future.value(false);
     }
   }
 }

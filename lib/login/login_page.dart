@@ -167,9 +167,12 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
               context: context,
               barrierDismissible: false,
               builder: (_) {
-                return GradientCircularProgressRoute(
-                  colors: [Colors.yellow, Colors.orange],
-                  label: Container(child: Text('登录中……', style: TextStyle(fontSize: 15, color: Colors.white70, decoration: TextDecoration.none))),
+                return WillPopScope(
+                  child: GradientCircularProgressRoute(
+                    colors: [Colors.yellow, Colors.orange],
+                    label: Container(child: Text('登录中……', style: TextStyle(fontSize: 15, color: Colors.white70, decoration: TextDecoration.none))),
+                  ),
+                  onWillPop: () => Future.value(false),
                 );
               });
           bool validate = _formKey.currentState.validate();
@@ -179,13 +182,13 @@ class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixi
             try {
               success = await LoginControl.getInstance().login(_userName, _password);
             } catch (e) {
+              print(e);
+            } finally {
               Navigator.of(context).pop();
             }
             if (success) {
               await animationController.reverse();
               app.navigatorKey.currentState.pushNamedAndRemoveUntil('homePage', (route) => route == null);
-            } else {
-              Navigator.of(context).pop();
             }
           }
         },
