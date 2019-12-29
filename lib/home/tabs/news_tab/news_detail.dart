@@ -64,10 +64,12 @@ class NewsDetailState extends State<NewsDetail> {
                           Divider(height: 27),
                           Text(_messageBody.content, style: TextStyle(fontSize: 15, height: 1.7)),
                           Divider(),
-                          GestureDetector(
-                            child: Text('去处理', style: TextStyle(color: Colors.blue, fontSize: 15, decoration: TextDecoration.underline)),
-                            onTap: () => Navigator.of(context).pushNamed(_messageBody.bundleId),
-                          ),
+                          _messageBody.bundleId != null
+                              ? GestureDetector(
+                                  child: Text('去处理', style: TextStyle(color: Colors.blue, fontSize: 15, decoration: TextDecoration.underline)),
+                                  onTap: () => Navigator.of(context).pushNamed(_messageBody.bundleId),
+                                )
+                              : SizedBox(height: 10),
                         ],
                       ),
                     )
